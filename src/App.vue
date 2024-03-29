@@ -1,3 +1,7 @@
 <template>
-  <div>Hello world!</div>
+  <div>
+    Hello world
+    <router-view />
+    <!-- Важно -->
+  </div>
 </template>
