@@ -9,6 +9,10 @@
               Need an account?
             </router-link> -->
           </p>
+          <McvValidationErrors
+            v-if="validationErrors"
+            :validationErrors="validationErrors"
+          />
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
@@ -48,11 +52,18 @@
 </template>
 
 <script>
+  import McvValidationErrors from "@/components/ValidationErrors";
   export default {
     name: "RegisterView",
+    components: {
+      McvValidationErrors,
+    },
     computed: {
       isSubmitting() {
         return this.$store.state.auth.isSubmitting;
+      },
+      validationErrors() {
+        return this.$store.state.auth.validationErrors;
       },
     },
     data() {
@@ -66,7 +77,16 @@
     methods: {
       onSubmit() {
         console.log("Form submitted", this.username, this.email, this.password);
-        this.$store.commit("registerStart");
+        this.$store
+          .dispatch("register", {
+            email: this.email,
+            username: this.username,
+            password: this.password,
+          })
+          .then((user) => {
+            console.log("Successfully register user", user);
+            this.$router.push({ name: "home" });
+          });
       },
     },
   };
