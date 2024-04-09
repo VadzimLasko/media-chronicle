@@ -4,4 +4,13 @@ const register = (credentials) => {
   return axios.post("/users", { user: credentials });
 };
 
-export default { register };
+const login = (credentials) => {
+  return axios.post("/users/login", { user: credentials });
+};
+
+const getCurrentUser = () => {
+  console.log("пошел запрос getCurrentUser");
+  return axios.get("/user");
+};
+
+export default { register, login, getCurrentUser };

@@ -17,10 +17,12 @@
     },
     computed: {
       errorMessages() {
-        return Object.keys(this.validationErrors).map((name) => {
-          const messages = this.validationErrors[name].join(", ");
-          return `${name} ${messages}`;
-        });
+        return Object.entries(this.validationErrors).map(
+          ([fieldName, fieldErrors]) => {
+            const messages = fieldErrors.join(", ");
+            return `${fieldName}: ${messages}`;
+          },
+        );
       },
     },
   };
