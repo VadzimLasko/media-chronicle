@@ -13,7 +13,6 @@
     name: "McvApp",
     components: { McvTopBar },
     mounted() {
-      console.log("Hello app");
       this.$store.dispatch(actionTypes.getCurrentUser);
       console.log("dispatch(actionTypes.getCurrentUser)");
     },

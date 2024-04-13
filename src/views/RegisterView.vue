@@ -85,7 +85,7 @@
           })
           .then((user) => {
             console.log("Successfully register user", user);
-            this.$router.push({ name: "home" });
+            this.$router.push({ name: "globalFeed" });
           });
       },
     },
