@@ -16,7 +16,7 @@
 <script>
   //   import { mapState } from "vuex";
   //   import McvValidationErrors from "@/components/ValidationErrors";
-  import { renge } from "@/helpers/utils";
+  import { renge } from "@/helpers/utils.js";
   export default {
     name: "McvPagination",
     props: {

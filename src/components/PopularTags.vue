@@ -21,9 +21,9 @@
 
 <script>
   import { mapState } from "vuex";
-  import { actionTypes } from "@/store/modules/popularTags";
-  import McvLoading from "@/components/Loading";
-  import McvErrorMessage from "@/components/ErrorMessage";
+  import { actionTypes } from "@/store/modules/popularTags.js";
+  import McvLoading from "@/components/Loading.vue";
+  import McvErrorMessage from "@/components/ErrorMessage.vue";
   export default {
     name: "McvPopularTags",
     computed: {

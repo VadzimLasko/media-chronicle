@@ -54,11 +54,11 @@
 
 <script>
   import { mapState } from "vuex";
-  import { actionTypes } from "@/store/modules/feed";
-  import McvPagination from "@/components/Pagination";
-  import { limit } from "@/helpers/vars";
-  import McvLoading from "@/components/Loading";
-  import McvErrorMessage from "@/components/ErrorMessage";
+  import { actionTypes } from "@/store/modules/feed.js";
+  import McvPagination from "@/components/Pagination.vue";
+  import { limit } from "@/helpers/vars.js";
+  import McvLoading from "@/components/Loading.vue";
+  import McvErrorMessage from "@/components/ErrorMessage.vue";
   import queryString from "query-string";
   export default {
     name: "McvFeed",

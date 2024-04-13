@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
-import auth from "@/store/modules/auth";
-import feed from "@/store/modules/feed";
-import popularTags from "@/store/modules/popularTags";
+import auth from "@/store/modules/auth.js";
+import feed from "@/store/modules/feed.js";
+import popularTags from "@/store/modules/popularTags.js";
 
 const store = createStore({
   state: {},

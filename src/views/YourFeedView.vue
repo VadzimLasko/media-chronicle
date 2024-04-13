@@ -16,10 +16,10 @@
 </template>
 
 <script>
-  import McvFeed from "@/components/Feed";
-  import McvPopularTags from "@/components/PopularTags";
-  import McvBanner from "@/components/Banner";
-  import McvFeedToggler from "@/components/FeedToggler";
+  import McvFeed from "@/components/Feed.vue";
+  import McvPopularTags from "@/components/PopularTags.vue";
+  import McvBanner from "@/components/Banner.vue";
+  import McvFeedToggler from "@/components/FeedToggler.vue";
   export default {
     name: "McvYourFeedView",
     components: {

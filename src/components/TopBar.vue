@@ -81,7 +81,7 @@
 <script>
   //   import { mapState } from "vuex";
   import { mapGetters } from "vuex";
-  import { getterTypes } from "@/store/modules/auth";
+  import { getterTypes } from "@/store/modules/auth.js";
   export default {
     name: "McvTopBar",
     computed: {

@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
-import GlobalFeedView from "@/views/GlobalFeedView";
-import RegisterView from "@/views/RegisterView";
-import LoginView from "@/views/LoginView";
-import YourFeedView from "@/views/YourFeedView";
-import TagFeedView from "@/views/TagFeedView";
+import GlobalFeedView from "@/views/GlobalFeedView.vue";
+import RegisterView from "@/views/RegisterView.vue";
+import LoginView from "@/views/LoginView.vue";
+import YourFeedView from "@/views/YourFeedView.vue";
+import TagFeedView from "@/views/TagFeedView.vue";
 const routes = [
   {
     path: "/register",
