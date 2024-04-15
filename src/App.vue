@@ -14,7 +14,6 @@
     components: { McvTopBar },
     mounted() {
       this.$store.dispatch(actionTypes.getCurrentUser);
-      console.log("dispatch(actionTypes.getCurrentUser)");
     },
   };
 </script>

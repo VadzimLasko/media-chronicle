@@ -4,6 +4,9 @@ import RegisterView from "@/views/RegisterView.vue";
 import LoginView from "@/views/LoginView.vue";
 import YourFeedView from "@/views/YourFeedView.vue";
 import TagFeedView from "@/views/TagFeedView.vue";
+import Article from "@/views/Article.vue";
+import CreateArticle from "@/views/CreateArticle.vue";
+import EditArticle from "@/views/EditArticle.vue";
 const routes = [
   {
     path: "/register",
@@ -30,20 +33,22 @@ const routes = [
     name: "tag",
     component: TagFeedView,
   },
+
   {
     path: "/articles/new",
     name: "createArticle",
-    component: GlobalFeedView,
+    component: CreateArticle,
   },
+
   {
     path: "/articles/:slug",
     name: "article",
-    component: GlobalFeedView,
+    component: Article,
   },
   {
     path: "/articles/:slug/edit",
     name: "editArticle",
-    component: GlobalFeedView,
+    component: EditArticle,
   },
   {
     path: "/settings",

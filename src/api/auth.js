@@ -9,7 +9,6 @@ const login = (credentials) => {
 };
 
 const getCurrentUser = () => {
-  console.log("пошел запрос getCurrentUser");
   return axios.get("/user");
 };
 

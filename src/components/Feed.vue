@@ -39,7 +39,7 @@
           <h1>{{ article.title }}</h1>
           <p>{{ article.description }}</p>
           <span>Read more...</span>
-          TAG LIST
+          <McvTags :article="article" />
         </router-link>
       </div>
       <McvPagination
@@ -59,6 +59,7 @@
   import { limit } from "@/helpers/vars.js";
   import McvLoading from "@/components/Loading.vue";
   import McvErrorMessage from "@/components/ErrorMessage.vue";
+  import McvTags from "@/components/Tags.vue";
   import queryString from "query-string";
   export default {
     name: "McvFeed",
@@ -68,7 +69,7 @@
         required: true,
       },
     },
-    components: { McvPagination, McvLoading, McvErrorMessage },
+    components: { McvPagination, McvLoading, McvErrorMessage, McvTags },
     data() {
       return {
         limit,
@@ -100,7 +101,7 @@
     methods: {
       fetchFeed() {
         const parsedUrl = queryString.parseUrl(this.apiUrl);
-        console.log("раздлжили", parsedUrl); // разложили текущий url
+        // разложили текущий url
         const stringifiedParams = queryString.stringify({
           // добавили новые qury параметры
           limit: this.limit,

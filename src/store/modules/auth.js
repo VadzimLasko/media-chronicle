@@ -10,22 +10,22 @@ const state = {
 };
 
 export const mutationTypes = {
-  registerStart: "[auth] registerStart",
-  registerSucces: "[auth] registerSucces",
-  registerFailure: "[auth] registerFailure",
+  registerStart: "[auth] register Start",
+  registerSucces: "[auth] register Succes",
+  registerFailure: "[auth] register Failure",
 
-  loginStart: "[auth] loginStart",
-  loginSucces: "[auth] loginSucces",
-  loginFailure: "[auth] loginFailure",
+  loginStart: "[auth] login Start",
+  loginSucces: "[auth] login Succes",
+  loginFailure: "[auth] login Failure",
 
-  getCurrentUserStart: "[auth] getCurrentUserStart",
-  getCurrentUserSucces: "[auth] getCurrentUserSucces",
-  getCurrentUserFailure: "[auth] getCurrentUserFailure",
+  getCurrentUserStart: "[auth] get CurrentUser Start",
+  getCurrentUserSucces: "[auth] get urrentUser Succes",
+  getCurrentUserFailure: "[auth] get CurrentUser Failure",
 };
 export const actionTypes = {
   register: "[auth] register",
   login: "[auth] login",
-  getCurrentUser: "[auth] getCurrentUser",
+  getCurrentUser: "[auth] get CurrentUser",
 };
 
 export const getterTypes = {
@@ -101,7 +101,6 @@ const actions = {
           resolve(response.data.user);
         })
         .catch((result) => {
-          console.log("result", result);
           commit(mutationTypes.registerFailure, result.response.data.errors);
         });
     });
@@ -112,25 +111,21 @@ const actions = {
       authApi
         .login(credential)
         .then((response) => {
-          console.log("response", response);
           commit(mutationTypes.loginSucces, response.data.user);
           setItem("accessToken", response.data.user.token);
           resolve(response.data.user);
         })
         .catch((result) => {
-          console.log("result", result);
           commit(mutationTypes.loginFailure, result.response.data.errors);
         });
     });
   },
   [actionTypes.getCurrentUser]({ commit }) {
     return new Promise((resolve) => {
-      console.log("начало getCurrentUserStart");
       commit(mutationTypes.getCurrentUserStart);
       authApi
         .getCurrentUser()
         .then((response) => {
-          console.log("response getCurrentUser", response);
           commit(mutationTypes.getCurrentUserSucces, response.data.user);
           resolve(response.data.user);
         })

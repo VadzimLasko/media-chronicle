@@ -42,7 +42,6 @@ const actions = {
           resolve(response.data);
         })
         .catch((result) => {
-          console.log("result", result);
           commit(mutationTypes.getFeedFailure, result.response.data.errors);
         });
     });
