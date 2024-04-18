@@ -12,4 +12,10 @@ const getCurrentUser = () => {
   return axios.get("/user");
 };
 
-export default { register, login, getCurrentUser };
+const updateCurrentUser = (currentUser) => {
+  return axios.put("/user", { user: currentUser }).then((response) => {
+    return response.data.user;
+  });
+};
+
+export default { register, login, getCurrentUser, updateCurrentUser };

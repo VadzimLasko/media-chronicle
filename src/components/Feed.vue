@@ -30,7 +30,13 @@
             </router-link>
             <span class="date">{{ article.createdAt }}</span>
           </div>
-          <div class="pull-xs-right">ADD TO FAVORITES</div>
+          <div class="pull-xs-right">
+            <mcv-add-to-favorites
+              :is-favorited="article.favorited"
+              :article-slug="article.slug"
+              :favorites-count="article.favoritesCount"
+            />
+          </div>
         </div>
         <router-link
           :to="{ name: 'article', params: { slug: article.slug } }"
@@ -60,6 +66,7 @@
   import McvLoading from "@/components/Loading.vue";
   import McvErrorMessage from "@/components/ErrorMessage.vue";
   import McvTags from "@/components/Tags.vue";
+  import McvAddToFavorites from "@/components/AddToFavorites.vue";
   import queryString from "query-string";
   export default {
     name: "McvFeed",
@@ -69,7 +76,13 @@
         required: true,
       },
     },
-    components: { McvPagination, McvLoading, McvErrorMessage, McvTags },
+    components: {
+      McvPagination,
+      McvLoading,
+      McvErrorMessage,
+      McvTags,
+      McvAddToFavorites,
+    },
     data() {
       return {
         limit,
@@ -78,11 +91,11 @@
     computed: {
       ...mapState({
         isLoading: (state) => state.feed.isLoading,
-        feed: (state) => state.feed.data, //здеь feed это дейта, немного переименовали для для удобства понимания в компоненте
+        feed: (state) => state.feed.data,
         error: (state) => state.feed.error,
       }),
       currentPage() {
-        return +this.$route.query.page || "1";
+        return +this.$route.query.page || 1;
       },
       baseUrl() {
         return this.$route.path;

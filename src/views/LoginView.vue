@@ -55,12 +55,6 @@
         isSubmitting: (state) => state.auth.isSubmitting,
         validationErrors: (state) => state.auth.validationErrors,
       }),
-      // isSubmitting() {
-      //   return this.$store.state.auth.isSubmitting;
-      // },
-      // validationErrors() {
-      //   return this.$store.state.auth.validationErrors;
-      // },
     },
     data() {
       return {

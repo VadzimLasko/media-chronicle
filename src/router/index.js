@@ -7,6 +7,9 @@ import TagFeedView from "@/views/TagFeedView.vue";
 import Article from "@/views/Article.vue";
 import CreateArticle from "@/views/CreateArticle.vue";
 import EditArticle from "@/views/EditArticle.vue";
+import Settings from "@/views/Settings.vue";
+import UserProfile from "@/views/UserProfile.vue";
+
 const routes = [
   {
     path: "/register",
@@ -53,17 +56,17 @@ const routes = [
   {
     path: "/settings",
     name: "settings",
-    component: GlobalFeedView,
+    component: Settings,
   },
   {
     path: "/profiles/:slug",
     name: "userProfile",
-    component: GlobalFeedView,
+    component: UserProfile,
   },
   {
     path: "/profiles/:slug/favorites",
     name: "userProfileFavorites",
-    component: GlobalFeedView,
+    component: UserProfile,
   },
 ];
 

@@ -8,18 +8,18 @@ const state = {
 };
 
 export const mutationTypes = {
-  updateArticleStart: "[updateArticle] Update article start",
-  updateArticleSucces: "[updateArticle] Update article succes",
-  updateArticleFailure: "[updateArticle] Update article failure",
+  updateArticleStart: "[editArticle] Update article start",
+  updateArticleSucces: "[editArticle] Update article succes",
+  updateArticleFailure: "[editArticle] Update article failure",
 
-  getArticleStart: "[updateArticle] Get article start",
-  getArticleSucces: "[updateArticle] Get article succes",
-  getArticleFailure: "[updateArticle] Get article failure",
+  getArticleStart: "[editArticle] Get article start",
+  getArticleSucces: "[editArticle] Get article succes",
+  getArticleFailure: "[editArticle] Get article failure",
 };
 
 export const actionTypes = {
-  updateArticle: "[updateArticle] Update article",
-  getArticle: "[updateArticle] Get article",
+  updateArticle: "[editArticle] Update article",
+  getArticle: "[editArticle] Get article",
 };
 
 const mutations = {
@@ -33,7 +33,7 @@ const mutations = {
     state.isSubmitting = false;
     state.validationErrors = payload;
   },
-  /////////////
+
   [mutationTypes.getArticleStart](state) {
     state.isLoading = true;
   },
@@ -45,7 +45,7 @@ const mutations = {
     state.isLoading = false;
     state.validationErrors = payload;
   },
-}; //////////
+};
 
 const actions = {
   [actionTypes.updateArticle]({ commit }, { slug, articleInput }) {

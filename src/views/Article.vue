@@ -80,8 +80,6 @@
       }),
       ...mapGetters({
         currentUser: authGetterTypes.currentUser,
-        // isLoggedIn: authGetterTypes.isLoggedIn,
-        // isAnonymous: authGetterTypes.isAnonymous,
       }),
       isAuthor() {
         if (!this.currentUser || !this.article) {

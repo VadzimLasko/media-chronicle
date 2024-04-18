@@ -17,29 +17,29 @@
         </li>
         <template v-if="isLoggedIn">
           <li class="nav-item">
-            <!-- <router-link
+            <router-link
               class="nav-link"
               :to="{ name: 'createArticle' }"
               active-class="active"
             >
               <i class="ion-compose" />
               &nbsp; New Article
-            </router-link> -->
+            </router-link>
           </li>
 
           <li class="nav-item">
-            <!-- <router-link
+            <router-link
               class="nav-link"
               :to="{ name: 'settings' }"
               active-class="active"
             >
               <i class="ion-gear-a" />
               &nbsp; Settings
-            </router-link> -->
+            </router-link>
           </li>
 
           <li class="nav-item">
-            <!-- <router-link
+            <router-link
               class="nav-link"
               :to="{
                 name: 'userProfile',
@@ -50,7 +50,7 @@
               <img class="user-pic" :src="currentUser.image" />
               &nbsp;
               {{ currentUser.username }}
-            </router-link> -->
+            </router-link>
           </li>
         </template>
         <template v-if="isAnonymous">
@@ -79,7 +79,6 @@
 </template>
 
 <script>
-  //   import { mapState } from "vuex";
   import { mapGetters } from "vuex";
   import { getterTypes } from "@/store/modules/auth.js";
   export default {

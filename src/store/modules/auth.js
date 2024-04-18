@@ -10,22 +10,31 @@ const state = {
 };
 
 export const mutationTypes = {
-  registerStart: "[auth] register Start",
-  registerSucces: "[auth] register Succes",
-  registerFailure: "[auth] register Failure",
+  registerStart: "[auth] Register start",
+  registerSucces: "[auth] Register succes",
+  registerFailure: "[auth] Register failure",
 
-  loginStart: "[auth] login Start",
-  loginSucces: "[auth] login Succes",
-  loginFailure: "[auth] login Failure",
+  loginStart: "[auth] Login start",
+  loginSucces: "[auth] Login succes",
+  loginFailure: "[auth] Login failure",
 
-  getCurrentUserStart: "[auth] get CurrentUser Start",
-  getCurrentUserSucces: "[auth] get urrentUser Succes",
-  getCurrentUserFailure: "[auth] get CurrentUser Failure",
+  getCurrentUserStart: "[auth] Get currentUser start",
+  getCurrentUserSucces: "[auth] Get currentUser succes",
+  getCurrentUserFailure: "[auth] Get currentUser failure",
+
+  updateCurrentUserStart: "[auth] Update currentUser start",
+  updateCurrentUserSucces: "[auth] Update currentUser succes",
+  updateCurrentUserFailure: "[auth] Update currentUser failure",
+
+  logout: "[auth] Logout",
 };
+
 export const actionTypes = {
-  register: "[auth] register",
-  login: "[auth] login",
-  getCurrentUser: "[auth] get CurrentUser",
+  register: "[auth] Register",
+  login: "[auth] Login",
+  getCurrentUser: "[auth] Get currentUser",
+  updateCurrentUser: "[auth] Update currentUser",
+  logout: "[auth] Logout",
 };
 
 export const getterTypes = {
@@ -60,6 +69,7 @@ const mutations = {
     state.isSubmitting = false;
     state.validationErrors = payload;
   },
+
   [mutationTypes.loginStart](state) {
     state.isSubmitting = true;
     state.validationErrors = null;
@@ -73,6 +83,7 @@ const mutations = {
     state.isSubmitting = false;
     state.validationErrors = payload;
   },
+
   [mutationTypes.getCurrentUserStart](state) {
     state.isLoading = true;
   },
@@ -85,6 +96,17 @@ const mutations = {
     state.isLoading = false;
     state.isLoggedIn = false;
     state.currentUser = null;
+  },
+
+  [mutationTypes.updateCurrentUserStart](state) {},
+  [mutationTypes.updateCurrentUserSucces](state, payload) {
+    state.currentUser = payload;
+  },
+  [mutationTypes.updateCurrentUserFailure](state) {},
+
+  [mutationTypes.logout](state) {
+    state.currentUser = null;
+    state.isLoggedIn = false;
   },
 };
 
@@ -132,6 +154,29 @@ const actions = {
         .catch(() => {
           commit(mutationTypes.getCurrentUserFailure);
         });
+    });
+  },
+
+  [actionTypes.updateCurrentUser]({ commit }, { currentUserInput }) {
+    return new Promise((resolve) => {
+      commit(mutationTypes.updateCurrentUserStart);
+      authApi
+        .updateCurrentUser(currentUserInput)
+        .then((user) => {
+          commit(mutationTypes.updateCurrentUserSucces, user);
+          resolve(user);
+        })
+        .catch(() => {
+          commit(mutationTypes.updateCurrentUserFailure);
+        });
+    });
+  },
+
+  [actionTypes.logout]({ commit }) {
+    return new Promise((resolve) => {
+      setItem("accessToken", "");
+      commit(mutationTypes.logout);
+      resolve();
     });
   },
 };
