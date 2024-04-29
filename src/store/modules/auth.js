@@ -98,11 +98,11 @@ const mutations = {
     state.currentUser = null;
   },
 
-  [mutationTypes.updateCurrentUserStart](state) {},
+  [mutationTypes.updateCurrentUserStart]() {},
   [mutationTypes.updateCurrentUserSucces](state, payload) {
     state.currentUser = payload;
   },
-  [mutationTypes.updateCurrentUserFailure](state) {},
+  [mutationTypes.updateCurrentUserFailure](stte) {},
 
   [mutationTypes.logout](state) {
     state.currentUser = null;

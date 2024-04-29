@@ -60,56 +60,58 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from "vuex";
-  import { actionTypes as userProfileActionTypes } from "@/store/modules/userProfile.js";
-  import { getterTypes as authGetterTypes } from "@/store/modules/auth.js";
-  import McvFeed from "@/components/Feed.vue";
+import { mapState, mapGetters } from "vuex";
+import { actionTypes as userProfileActionTypes } from "@/store/modules/userProfile.js";
+import { getterTypes as authGetterTypes } from "@/store/modules/auth.js";
+import McvFeed from "@/components/Feed.vue";
+import McvAddToFollow from "@/components/AddToFollow.vue";
 
-  export default {
-    name: "McvUserProfile",
-    components: {
-      McvFeed,
+export default {
+  name: "McvUserProfile",
+  components: {
+    McvFeed,
+    McvAddToFollow,
+  },
+  computed: {
+    ...mapState({
+      userProfile: (state) => state.userProfile.data,
+      isLoading: (state) => state.userProfile.isLoading,
+      error: (state) => state.userProfile.error,
+    }),
+    ...mapGetters({
+      currentUser: authGetterTypes.currentUser,
+    }),
+    isCurrentUserProfile() {
+      if (!this.currentUser || !this.userProfile) {
+        return false;
+      }
+      return this.currentUser.username === this.userProfile.username;
     },
-    computed: {
-      ...mapState({
-        userProfile: (state) => state.userProfile.data,
-        isLoading: (state) => state.userProfile.isLoading,
-        error: (state) => state.userProfile.error,
-      }),
-      ...mapGetters({
-        currentUser: authGetterTypes.currentUser,
-      }),
-      isCurrentUserProfile() {
-        if (!this.currentUser || !this.userProfile) {
-          return false;
-        }
-        return this.currentUser.username === this.userProfile.username;
-      },
-      apiUrl() {
-        const isFavorites = this.$route.path.includes("favorites");
-        return isFavorites
-          ? `/articles?favorited=${this.userProfileSlug}`
-          : `/articles?author=${this.userProfileSlug}`;
-      },
-      userProfileSlug() {
-        return this.$route.params.slug;
-      },
-      routeName() {
-        return this.$route.name;
-      },
+    apiUrl() {
+      const isFavorites = this.$route.path.includes("favorites");
+      return isFavorites
+        ? `/articles?favorited=${this.userProfileSlug}`
+        : `/articles?author=${this.userProfileSlug}`;
     },
-    watch: {
-      userProfileSlug: "fetchUserProfileFeed",
+    userProfileSlug() {
+      return this.$route.params.slug;
     },
-    mounted() {
-      this.fetchUserProfileFeed();
+    routeName() {
+      return this.$route.name;
     },
-    methods: {
-      fetchUserProfileFeed() {
-        this.$store.dispatch(userProfileActionTypes.getUserProfile, {
-          slug: this.userProfileSlug,
-        });
-      },
+  },
+  watch: {
+    userProfileSlug: "fetchUserProfileFeed",
+  },
+  mounted() {
+    this.fetchUserProfileFeed();
+  },
+  methods: {
+    fetchUserProfileFeed() {
+      this.$store.dispatch(userProfileActionTypes.getUserProfile, {
+        slug: this.userProfileSlug,
+      });
     },
-  };
+  },
+};
 </script>

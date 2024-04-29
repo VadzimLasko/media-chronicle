@@ -76,15 +76,13 @@
     },
     methods: {
       onSubmit() {
-        console.log("Form submitted", this.username, this.email, this.password);
         this.$store
           .dispatch(actionTypes.register, {
             email: this.email,
             username: this.username,
             password: this.password,
           })
-          .then((user) => {
-            console.log("Successfully register user", user);
+          .then(() => {
             this.$router.push({ name: "globalFeed" });
           });
       },

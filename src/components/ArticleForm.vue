@@ -55,42 +55,42 @@
 </template>
 
 <script>
-  import McvValidationErrors from "@/components/ValidationErrors.vue";
-  export default {
-    name: "McvArticleForm",
-    props: {
-      initialValues: {
-        type: Object,
-        required: true,
-      },
-      errors: {
-        type: Object,
-        required: false,
-      },
-      isSubmitting: {
-        type: Boolean,
-        required: true,
-      },
+import McvValidationErrors from "@/components/ValidationErrors.vue";
+export default {
+  name: "McvArticleForm",
+  props: {
+    initialValues: {
+      type: Object,
+      required: true,
     },
-    components: { McvValidationErrors },
-    data() {
-      return {
-        title: this.initialValues.title,
-        description: this.initialValues.description,
-        body: this.initialValues.body,
-        tagList: this.initialValues.tagList.join(" "), // соединяем массив в строку с пробелами,т.к. придет массив, а нужна строка
+    errors: {
+      type: Object,
+      required: false,
+    },
+    isSubmitting: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  components: { McvValidationErrors },
+  data() {
+    return {
+      title: this.initialValues.title,
+      description: this.initialValues.description,
+      body: this.initialValues.body,
+      tagList: this.initialValues.tagList.join(" "), // соединяем массив в строку с пробелами,т.к. придет массив, а нужна строка
+    };
+  },
+  methods: {
+    onSubmit() {
+      const form = {
+        title: this.title,
+        description: this.description,
+        body: this.body,
+        tagList: this.tagList.split(" "),
       };
+      this.$emit("articleSubmit", form);
     },
-    methods: {
-      onSubmit() {
-        const form = {
-          title: this.title,
-          description: this.description,
-          body: this.body,
-          tagList: this.tagList.split(" "),
-        };
-        this.$emit("articleSubmit", form);
-      },
-    },
-  };
+  },
+};
 </script>

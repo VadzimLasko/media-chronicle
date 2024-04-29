@@ -42,7 +42,6 @@ const actions = {
           resolve(tags);
         })
         .catch((result) => {
-          console.log("result", result);
           commit(
             mutationTypes.getPopularTagsFailure,
             result.response.data.errors,

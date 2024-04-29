@@ -79,16 +79,10 @@
     actionTypes as authActionTypes,
   } from "@/store/modules/auth.js";
   import McvValidationErrors from "@/components/ValidationErrors.vue";
-  //   import McvPopularTags from "@/components/PopularTags.vue";
-  //   import McvBanner from "@/components/Banner.vue";
-  //   import McvFeedToggler from "@/components/FeedToggler.vue";
   export default {
     name: "McvSettings",
     components: {
       McvValidationErrors,
-      //   McvPopularTags,
-      //   McvBanner,
-      //   McvFeedToggler,
     },
     computed: {
       ...mapState({
@@ -110,13 +104,11 @@
     },
     methods: {
       onSubmit() {
-        console.log("Submited settings");
         this.$store.dispatch(authActionTypes.updateCurrentUser, {
           currentUserInput: this.form,
         });
       },
       logout() {
-        console.log("Logout");
         this.$store.dispatch(authActionTypes.logout).then(() => {
           this.$router.push({ name: "globalFeed" });
         });

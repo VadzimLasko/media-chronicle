@@ -9,9 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.21",
     "axios": "^1.6.8",
     "query-string": "^9.0.0",
+    "vue": "^3.4.21",
+    "vue-meta": "^2.4.0",
     "vue-router": "^4.3.0",
     "vuex": "^4.1.0"
   },
