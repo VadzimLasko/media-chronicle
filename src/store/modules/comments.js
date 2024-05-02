@@ -1,9 +1,11 @@
 import commentsApi from "@/api/comments.js";
 
-const state = {
+export const state = {
   data: null,
   isLoading: false,
   error: null,
+  isSubmitting: false,
+  validationErrors: null,
 };
 
 export const mutationTypes = {
@@ -11,14 +13,19 @@ export const mutationTypes = {
   getCommentsSuccess: "[comments] Get comments success",
   getCommentsFailure: "[comments] Get comments failure",
 
-//   deleteCommentStart: "[comments] Delete comment start",
-//   deleteCommentSuccess: "[comments] Delete comment success",
-//   deleteCommentFailure: "[comments] Delete comment failure",
+  deleteCommentStart: "[comments] Delete comment start",
+  deleteCommentSuccess: "[comments] Delete comment success",
+  deleteCommentFailure: "[comments] Delete comment failure",
+
+  createCommentStart: "[createComment] Create comment start",
+  createCommentSuccess: "[createComment] Create comment success",
+  createCommentFailure: "[createComment] Create comment failure",
 };
 
 export const actionTypes = {
   getComments: "[comments] Get comments",
-//   deleteComment: "[comments] Delete comment",
+  deleteComment: "[comments] Delete comment",
+  createComment: "[createComment] Create comment",
 };
 
 const mutations = {
@@ -35,11 +42,23 @@ const mutations = {
     state.error = payload;
   },
 
-//   [mutationTypes.deleteCommentStart]() {},
-//   [mutationTypes.deleteCommentSuccess]() {
-//     state.data = null;
-//   },
-//   [mutationTypes.deleteCommentFailure]() {},
+  [mutationTypes.deleteCommentStart]() {},
+  [mutationTypes.deleteCommentSuccess]() {
+  },
+  [mutationTypes.deleteCommentFailure]() {},
+
+  [mutationTypes.createCommentStart](state) {
+    state.isSubmitting = true;
+    state.validationErrors = null;
+  },
+  [mutationTypes.createCommentSuccess](state, payload) {
+    state.isSubmitting = false;
+    // state.data = { ...state.data, payload };
+  },
+  [mutationTypes.createCommentFailure](state, payload) {
+    state.isSubmitting = false;
+    state.validationErrors = payload;
+  },
 };
 
 const actions = {
@@ -54,6 +73,35 @@ const actions = {
         })
         .catch((result) => {
           commit(mutationTypes.getCommentsFailure, result.response.data.errors);
+        });
+    });
+  },
+  [actionTypes.deleteComment]({ commit }, { slug, idComment}) {
+    return new Promise((resolve) => {
+      commit(mutationTypes.deleteCommentStart);
+      commentsApi
+        .deleteComment(slug, idComment)
+        .then(() => {
+          commit(mutationTypes.deleteCommentSuccess, );
+          resolve();
+        })
+        .catch((result) => {
+          commit(mutationTypes.deleteCommentFailure, result.response.data.errors);
+        });
+    });
+  },
+  [actionTypes.createComment]({ commit }, { slug, commentInput }) {
+    return new Promise((resolve) => {
+      commit(mutationTypes.createCommentStart);
+      commentsApi
+        .addComments(slug, commentInput)
+        .then((comment) => {
+          commit(mutationTypes.createCommentSuccess, comment);
+          resolve(comment);
+        })
+        .catch(() => {
+          commit(
+            mutationTypes.createCommentFailure );
         });
     });
   },

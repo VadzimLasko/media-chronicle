@@ -3,33 +3,43 @@
     <router-link
       :to="{
         name: 'userProfile',
-        params: { slug: article.author.username },
+        params: { slug: data.author.username },
       }"
     >
-      <img :src="article.author.image" />
+      <img :src="data.author.image" />
     </router-link>
     <div class="info">
       <router-link
         :to="{
           name: 'userProfile',
-          params: { slug: article.author.username },
+          params: { slug: data.author.username },
         }"
       >
-        {{ article.author.username }}
+        {{ data.author.username }}
       </router-link>
 
-      <span class="date">{{ article.createdAt }}</span>
+      <span class="date">{{ dateTransform(data.createdAt) }}</span>
     </div>
   </span>
 </template>
 
 <script>
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 export default {
   name: "McvArticleProfile",
   props: {
-    article: {
+    data: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    dateTransform(date) {
+      const formattedDate = format(new Date(date), "dd.MM.yyyy HH:mm:ss", {
+        locale: ru,
+      });
+      return formattedDate;
     },
   },
 };

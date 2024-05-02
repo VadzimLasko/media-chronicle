@@ -10,7 +10,7 @@ import addToFavorites from "@/store/modules/addToFavorites.js";
 import userProfile from "@/store/modules/userProfile.js";
 import addToFollow from "@/store/modules/addToFollow.js";
 import comments from "@/store/modules/comments.js";
-import createComment from "@/store/modules/createComment.js";
+
 const store = createStore({
   state: {},
   getters: {},
@@ -28,7 +28,6 @@ const store = createStore({
     userProfile,
     addToFollow,
     comments,
-    createComment
   },
 });
 

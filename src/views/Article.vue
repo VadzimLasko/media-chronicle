@@ -4,7 +4,7 @@
       <div class="container" v-if="article">
         <h1>{{ article.title }}</h1>
         <div class="article-meta">
-          <mcv-article-profile :article="article" />
+          <mcv-article-profile :data="article" />
           <!-- This is not Author -->
           <span v-if="!isAuthor">
             <mcv-add-to-follow
@@ -41,18 +41,20 @@
     </div>
     <div class="container page">
       <McvLoading v-if="isLoading" />
-      <McvErrorMessage v-if="isLoading" :message="error" />
+      <McvErrorMessage v-if="error" :message="error" />
       <div class="row article-content" v-if="article">
         <div class="col-xs-12">
           <div>
             <p>{{ article.body }}</p>
           </div>
           <McvTags :article="article" />
+          <!--  -->
           <hr />
           <!-- Footer -->
-          <div class="article-actions">
+
+          <!-- <div class="article-actions">
             <div class="article-meta">
-              <mcv-article-profile :article="article" />
+              <mcv-article-profile :data="article" />
 
               <span v-if="!isAuthor">
                 <mcv-add-to-follow
@@ -85,51 +87,17 @@
                 </button>
               </span>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
     <!-- Comments -->
-    <McvComments :is-author="isAuthor" />
-    <!-- <McvCraeteComment /> -->
-    <!-- To do 1) Человеческая дата 2) Коментарии 3) воозможность удалять коментарии -->
-    <div class="row">
-      <div class="col-xs-12 col-md-8 offset-md-2">
-        <div show-authed="true" style="display: none">
-          <list-errors from="$ctrl.commentForm.errors" class="ng-isolate-scope"
-            ><ul class="error-messages ng-hide" ng-show="$ctrl.errors">
-              <!-- ngRepeat: (field, errors) in $ctrl.errors -->
-            </ul>
-          </list-errors>
-          <form
-            class="card comment-form ng-pristine ng-valid"
-            ng-submit="$ctrl.addComment()"
-          >
-            <div class="card-block">
-              <textarea
-                class="form-control ng-pristine ng-untouched ng-valid ng-empty"
-                placeholder="Write a comment..."
-                rows="3"
-                ng-model="$ctrl.commentForm.body"
-              >
-              </textarea>
-            </div>
-            <div class="card-footer">
-              <img class="comment-author-img" />
-              <button class="btn btn-sm btn-primary" type="submit">
-                Post Comment
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <p show-authed="false" style="display: inherit">
-          <a ui-sref="app.login" href="#/login">Sign in</a> or
-          <a ui-sref="app.register" href="#/register">sign up</a> to add
-          comments on this article.
-        </p>
-      </div>
+    <div v-if="article">
+      <McvComments :is-author="isAuthor" :is-current-user="isCurrentUser" />
     </div>
+
+    <!-- To do 1) Человеческая дата 2) Коментарии 3) воозможность удалять коментарии -->
+
     <!--  -->
   </div>
 </template>
@@ -137,6 +105,7 @@
 <script>
 import { actionTypes as articleActionTypes } from "@/store/modules/article.js";
 import { getterTypes as authGetterTypes } from "@/store/modules/auth.js";
+
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import McvLoading from "@/components/Loading.vue";
@@ -146,7 +115,8 @@ import McvArticleProfile from "@/components/ArticleProfile.vue";
 import McvAddToFavorites from "@/components/AddToFavorites.vue";
 import McvAddToFollow from "@/components/AddToFollow.vue";
 import McvComments from "@/components/Comments.vue";
-import McvCraeteComment from "@/components/CraeteComment.vue";
+
+export default {
   name: "McvArticleView",
   components: {
     McvLoading,
@@ -156,7 +126,6 @@ import McvCraeteComment from "@/components/CraeteComment.vue";
     McvAddToFavorites,
     McvAddToFollow,
     McvComments,
-    McvCraeteComment,
   },
   computed: {
     ...mapState({
@@ -176,18 +145,22 @@ import McvCraeteComment from "@/components/CraeteComment.vue";
     isFollowed() {
       return this.article.author.following;
     },
+    isCurrentUser() {
+      return Boolean(this.currentUser && this.currentUser.length != 0);
+    },
   },
+
   mounted() {
     this.getArticle();
   },
-
+  // To Do чтобы показывались свои статьи в Ёфид
+  // To do Тех на кого ты подписан и кто подписан на тебя
   methods: {
     getArticle() {
       this.$store.dispatch(articleActionTypes.getArticle, {
         slug: this.$route.params.slug,
       });
     },
-
     deleteArticle() {
       this.$store
         .dispatch(articleActionTypes.deleteArticle, {
@@ -198,4 +171,5 @@ import McvCraeteComment from "@/components/CraeteComment.vue";
         });
     },
   },
+};
 </script>
