@@ -8,6 +8,7 @@
             <h4>{{ userProfile.username }}</h4>
             <p>{{ userProfile.bio }}</p>
             <div>
+              <!-- TO do -->
               FOLLOW USER BUTTON
               <router-link
                 v-if="isCurrentUserProfile"
@@ -103,7 +104,7 @@ export default {
   watch: {
     userProfileSlug: "fetchUserProfileFeed",
   },
-  mounted() {
+  created() {
     this.fetchUserProfileFeed();
   },
   methods: {

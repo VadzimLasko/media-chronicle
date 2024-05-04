@@ -7,18 +7,18 @@ const state = {
 };
 
 export const mutationTypes = {
-  getArticleStart: "[article] Get Article Start",
-  getArticleSucces: "[article] Get Article Succes",
-  getArticleFailure: "[article] Get Article Failure",
+  getArticleStart: "[article] Get article start",
+  getArticleSuccess: "[article] Get article success",
+  getArticleFailure: "[article] Get article failure",
 
-  deleteArticleStart: "[article] Delete Article Start",
-  deleteArticleSucces: "[article] Delete Article Succes",
-  deleteArticleFailure: "[article] Delete Article Failure",
+  deleteArticleStart: "[article] Delete article start",
+  deleteArticleSuccess: "[article] Delete article success",
+  deleteArticleFailure: "[article] Delete article failure",
 };
 
 export const actionTypes = {
-  getArticle: "[article] Get Article",
-  deleteArticle: "[article] Delete Article",
+  getArticle: "[article] Get article",
+  deleteArticle: "[article] Delete article",
 };
 
 const mutations = {
@@ -26,7 +26,7 @@ const mutations = {
     state.isLoading = true;
     state.data = null;
   },
-  [mutationTypes.getArticleSucces](state, payload) {
+  [mutationTypes.getArticleSuccess](state, payload) {
     state.isLoading = false;
     state.data = payload;
   },
@@ -36,7 +36,7 @@ const mutations = {
   },
 
   [mutationTypes.deleteArticleStart]() {},
-  [mutationTypes.deleteArticleSucces]() {
+  [mutationTypes.deleteArticleSuccess]() {
     state.data = null;
   },
   [mutationTypes.deleteArticleFailure]() {},
@@ -49,7 +49,7 @@ const actions = {
       articleApi
         .getArticle(slug)
         .then((article) => {
-          commit(mutationTypes.getArticleSucces, article);
+          commit(mutationTypes.getArticleSuccess, article);
           resolve(article);
         })
         .catch((result) => {
@@ -63,7 +63,7 @@ const actions = {
       articleApi
         .deleteArticle(slug)
         .then(() => {
-          commit(mutationTypes.deleteArticleSucces);
+          commit(mutationTypes.deleteArticleSuccess);
           resolve();
         })
         .catch((result) => {

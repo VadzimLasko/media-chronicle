@@ -1,7 +1,3 @@
-// get("/articles/:slug/comments", ctrl.comments.get)
-// post("/articles/:slug/comments", auth, ctrl.comments.post)
-// del("/articles/:slug/comments/:comment", auth, c
-
 import axios from "@/api/axios.js";
 
 const getComments = (slug) => {

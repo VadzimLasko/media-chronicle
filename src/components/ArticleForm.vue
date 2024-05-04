@@ -78,7 +78,7 @@ export default {
       title: this.initialValues.title,
       description: this.initialValues.description,
       body: this.initialValues.body,
-      tagList: this.initialValues.tagList.join(" "), // соединяем массив в строку с пробелами,т.к. придет массив, а нужна строка
+      tagList: this.initialValues.tagList.join(" "), 
     };
   },
   methods: {

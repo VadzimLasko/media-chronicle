@@ -9,7 +9,7 @@
       message: {
         type: String,
         required: false,
-        default: "Something went wrong", // дэфолтный кейс, если пропс непришел
+        default: "Something went wrong",
       },
     },
   };

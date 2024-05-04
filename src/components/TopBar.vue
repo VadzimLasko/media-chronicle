@@ -2,7 +2,7 @@
   <nav class="navbar navbar-light">
     <div class="container">
       <router-link class="navbar-brand" :to="{ name: 'globalFeed' }">
-        MediumClone
+        Top topics
       </router-link>
       <ul class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
@@ -43,7 +43,7 @@
               class="nav-link"
               :to="{
                 name: 'userProfile',
-                params: { slug: currentUser.username }, // то, что будет после ../userProfile/(значение username)
+                params: { slug: currentUser.username },
               }"
               active-class="active"
             >
@@ -79,16 +79,16 @@
 </template>
 
 <script>
-  import { mapGetters } from "vuex";
-  import { getterTypes } from "@/store/modules/auth.js";
-  export default {
-    name: "McvTopBar",
-    computed: {
-      ...mapGetters({
-        currentUser: getterTypes.currentUser,
-        isLoggedIn: getterTypes.isLoggedIn,
-        isAnonymous: getterTypes.isAnonymous,
-      }),
-    },
-  };
+import { mapGetters } from "vuex";
+import { getterTypes } from "@/store/modules/auth.js";
+export default {
+  name: "McvTopBar",
+  computed: {
+    ...mapGetters({
+      currentUser: getterTypes.currentUser,
+      isLoggedIn: getterTypes.isLoggedIn,
+      isAnonymous: getterTypes.isAnonymous,
+    }),
+  },
+};
 </script>

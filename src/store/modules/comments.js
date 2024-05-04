@@ -51,9 +51,8 @@ const mutations = {
     state.isSubmitting = true;
     state.validationErrors = null;
   },
-  [mutationTypes.createCommentSuccess](state, payload) {
+  [mutationTypes.createCommentSuccess](state) {
     state.isSubmitting = false;
-    // state.data = { ...state.data, payload };
   },
   [mutationTypes.createCommentFailure](state, payload) {
     state.isSubmitting = false;

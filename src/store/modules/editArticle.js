@@ -9,11 +9,11 @@ const state = {
 
 export const mutationTypes = {
   updateArticleStart: "[editArticle] Update article start",
-  updateArticleSucces: "[editArticle] Update article succes",
+  updateArticleSuccess: "[editArticle] Update article success",
   updateArticleFailure: "[editArticle] Update article failure",
 
   getArticleStart: "[editArticle] Get article start",
-  getArticleSucces: "[editArticle] Get article succes",
+  getArticleSuccess: "[editArticle] Get article success",
   getArticleFailure: "[editArticle] Get article failure",
 };
 
@@ -26,7 +26,7 @@ const mutations = {
   [mutationTypes.updateArticleStart](state) {
     state.isSubmitting = true;
   },
-  [mutationTypes.updateArticleSucces](state) {
+  [mutationTypes.updateArticleSuccess](state) {
     state.isSubmitting = false;
   },
   [mutationTypes.updateArticleFailure](state, payload) {
@@ -37,7 +37,7 @@ const mutations = {
   [mutationTypes.getArticleStart](state) {
     state.isLoading = true;
   },
-  [mutationTypes.getArticleSucces](state, payload) {
+  [mutationTypes.getArticleSuccess](state, payload) {
     state.isLoading = false;
     state.article = payload;
   },
@@ -54,7 +54,7 @@ const actions = {
       articleApi
         .editArticle(slug, articleInput)
         .then((article) => {
-          commit(mutationTypes.updateArticleSucces, article);
+          commit(mutationTypes.updateArticleSuccess, article);
           resolve(article);
         })
         .catch((result) => {
@@ -71,7 +71,7 @@ const actions = {
       articleApi
         .getArticle(slug)
         .then((article) => {
-          commit(mutationTypes.getArticleSucces, article);
+          commit(mutationTypes.getArticleSuccess, article);
           resolve(article);
         })
         .catch((result) => {

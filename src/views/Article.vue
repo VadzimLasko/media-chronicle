@@ -5,6 +5,7 @@
         <h1>{{ article.title }}</h1>
         <div class="article-meta">
           <mcv-article-profile :data="article" />
+
           <!-- This is not Author -->
           <span v-if="!isAuthor">
             <mcv-add-to-follow
@@ -18,6 +19,7 @@
               message="Favorite Article"
             />
           </span>
+
           <!-- This is Author -->
           <span v-if="isAuthor">
             <router-link
@@ -48,66 +50,20 @@
             <p>{{ article.body }}</p>
           </div>
           <McvTags :article="article" />
-          <!--  -->
           <hr />
-          <!-- Footer -->
-
-          <!-- <div class="article-actions">
-            <div class="article-meta">
-              <mcv-article-profile :data="article" />
-
-              <span v-if="!isAuthor">
-                <mcv-add-to-follow
-                  :is-followed="isFollowed"
-                  :profile-slug="article.author.username"
-                />
-                <mcv-add-to-favorites
-                  :is-favorited="article.favorited"
-                  :article-slug="article.slug"
-                  :favorites-count="article.favoritesCount"
-                  message="Favorite Article"
-                />
-              </span>
-
-              <span v-if="isAuthor">
-                <router-link
-                  class="btn btn-outline-secondary btn-sm"
-                  :style="{ 'margin-right': '1rem ' }"
-                  :to="{ name: 'editArticle', params: { slug: article.slug } }"
-                >
-                  <i class="ion-edit"></i>
-                  Edit Article
-                </router-link>
-                <button
-                  class="btn btn-outline-danger btn-sm"
-                  @click="deleteArticle"
-                >
-                  <i class="ion-trash-a"></i>
-                  Delete Article
-                </button>
-              </span>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
+
     <!-- Comments -->
     <div v-if="article">
       <McvComments :is-author="isAuthor" :is-current-user="isCurrentUser" />
     </div>
-
-    <!-- To do 1) Человеческая дата 2) Коментарии 3) воозможность удалять коментарии -->
-
-    <!--  -->
   </div>
 </template>
 
 <script>
-import { actionTypes as articleActionTypes } from "@/store/modules/article.js";
-import { getterTypes as authGetterTypes } from "@/store/modules/auth.js";
-
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import McvLoading from "@/components/Loading.vue";
 import McvErrorMessage from "@/components/ErrorMessage.vue";
 import McvTags from "@/components/Tags.vue";
@@ -115,6 +71,8 @@ import McvArticleProfile from "@/components/ArticleProfile.vue";
 import McvAddToFavorites from "@/components/AddToFavorites.vue";
 import McvAddToFollow from "@/components/AddToFollow.vue";
 import McvComments from "@/components/Comments.vue";
+import { actionTypes as articleActionTypes } from "@/store/modules/article.js";
+import { getterTypes as authGetterTypes } from "@/store/modules/auth.js";
 
 export default {
   name: "McvArticleView",
@@ -150,11 +108,9 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
     this.getArticle();
   },
-  // To Do чтобы показывались свои статьи в Ёфид
-  // To do Тех на кого ты подписан и кто подписан на тебя
   methods: {
     getArticle() {
       this.$store.dispatch(articleActionTypes.getArticle, {
@@ -167,7 +123,7 @@ export default {
           slug: this.$route.params.slug,
         })
         .then(() => {
-          this.$route.push({ name: "globalFeed" });
+          this.$router.push({ name: "globalFeed" });
         });
     },
   },

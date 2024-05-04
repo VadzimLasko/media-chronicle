@@ -10,7 +10,7 @@ export const mutations = {
     state.isSubmitting = true;
     state.validationErrors = null;
   },
-  [authMutationTypes.updateCurrentUserSucces](state) {
+  [authMutationTypes.updateCurrentUserSuccess](state) {
     state.isSubmitting = false;
   },
   [authMutationTypes.updateCurrentUserFailure](state, payload) {

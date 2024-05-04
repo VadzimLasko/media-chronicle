@@ -5,7 +5,7 @@ import router from "./router";
 import store from "./store";
 
 const app = createApp(App);
-
+// To do meta
 // const metaManager = createMetaManager();
 
 app.use(router);

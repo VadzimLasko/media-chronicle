@@ -16,7 +16,7 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-10 offset-md-1 col-xs-12">
-          <form @submit.prevent="addComment">
+          <form @submit.prevent="handleAddComment">
             <fieldset>
               <fieldset class="form-group">
                 <input
@@ -45,13 +45,13 @@
   <McvErrorMessage v-if="error" />
 
   <!-- If there are no comments -->
-  <div v-if="emptyCommets" class="comments__empty">No comments yet</div>
+  <div v-if="isEmptyComments" class="comments__empty">No comments yet</div>
 
   <!-- Comments are displayed here -->
-  <div v-if="reversedComments" class="comments__full">
+  <div v-if="orderedComments" class="comments__full">
     <div
       class="article-preview comment__area"
-      v-for="(comment, index) in reversedComments"
+      v-for="(comment, index) in orderedComments"
       :key="index"
     >
       <div class="article-meta"><mcv-article-profile :data="comment" /></div>
@@ -60,7 +60,7 @@
         <button
           v-if="isAuthor"
           class="comment__btn-del"
-          @click="deleteComment(comment.id)"
+          @click="handleDeleteComment(comment.id)"
         >
           X
         </button>
@@ -73,11 +73,12 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { actionTypes } from "@/store/modules/comments.js";
 import McvLoading from "@/components/Loading.vue";
 import McvErrorMessage from "@/components/ErrorMessage.vue";
 import McvArticleProfile from "@/components/ArticleProfile.vue";
+
 export default {
   name: "McvComments",
   props: {
@@ -101,13 +102,13 @@ export default {
       comments: (state) => state.comments.data,
       error: (state) => state.comments.error,
     }),
-    emptyCommets() {
+    isEmptyComments() {
       return this.comments && this.comments.length === 0;
     },
-    reversedComments() {
-      if (this.comments) {
-        return Object.values(this.comments).reverse();
-      }
+    orderedComments() {
+      return this.comments
+        ? [...this.comments].sort((a, b) => b.id - a.id)
+        : [];
     },
     slug() {
       return this.$route.params.slug;
@@ -115,38 +116,32 @@ export default {
   },
   data() {
     return {
-      commentCount: 1,
       textComment: "",
     };
   },
-  watch: {
-    commentCount: "getComments",
-  },
-  mounted() {
-    this.getComments();
-  },
   methods: {
-    getComments() {
-      this.$store.dispatch(actionTypes.getComments, {
-        slug: this.slug,
+    ...mapActions({
+      fetchComments: actionTypes.getComments,
+      removeComment: actionTypes.deleteComment,
+      submitComment: actionTypes.createComment,
+    }),
+    handleDeleteComment(idComment) {
+      this.removeComment({ slug: this.slug, idComment }).then(() => {
+        this.fetchComments({ slug: this.slug });
       });
-      setTimeout(() => console.log("this.comments", this.comments), 2000);
     },
-    deleteComment(idComment) {
-      this.$store.dispatch(actionTypes.deleteComment, {
+    handleAddComment() {
+      this.submitComment({
         slug: this.slug,
-        idComment,
-      });
-      this.commentCount -= 1;
-    },
-    addComment() {
-      this.$store.dispatch(actionTypes.createComment, {
-        slug: this.$route.params.slug,
         commentInput: this.textComment,
+      }).then(() => {
+        this.textComment = "";
+        this.fetchComments({ slug: this.slug });
       });
-      this.commentCount += 1;
-      this.textComment = "";
     },
+  },
+  created() {
+    this.fetchComments({ slug: this.slug });
   },
 };
 </script>
@@ -186,27 +181,3 @@ export default {
   text-align: center;
 }
 </style>
-
-<!-- "comment": {
-  "id": 8158,
-  "createdAt": "2024-04-30T08:51:35.929Z",
-  "updatedAt": "2024-04-30T08:51:35.929Z",
-  "body": "c hnmbhnm hg dtyhdygj dtyj t",
-  "author": {
-      "username": "m123y-user-name123233333",
-      "bio": "12213",
-      "image": "https://api.realworld.io/images/smiley-cyrus.jpeg",
-      "following": false
-  }
-} -->
-
-<!-- <div v-if="!emptyCommets">
-  <div
-    class="article-preview"
-    v-for="(comment, index) in comments"
-    :key="index"
-  >
-    {{ comment }}
-    <button @click="deleteComment(comment.id)"></button>
-  </div>
-</div> -->

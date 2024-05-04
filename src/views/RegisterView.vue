@@ -55,6 +55,7 @@
   import { mapState } from "vuex";
   import McvValidationErrors from "@/components/ValidationErrors.vue";
   import { actionTypes } from "@/store/modules/auth.js";
+  
   export default {
     name: "RegisterView",
     components: {

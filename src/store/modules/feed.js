@@ -7,13 +7,13 @@ const state = {
 };
 
 export const mutationTypes = {
-  getFeedStart: "[feed] getFeedStart",
-  getFeedSucces: "[feed] getFeedSucces",
-  getFeedFailure: "[feed] getFeedFailure",
+  getFeedStart: "[feed] Get feed start",
+  getFeedSuccess: "[feed] Get feed success",
+  getFeedFailure: "[feed] Get feed failure",
 };
 
 export const actionTypes = {
-  getFeed: "[feed] getFeed",
+  getFeed: "[feed] Get feed",
 };
 
 const mutations = {
@@ -21,7 +21,7 @@ const mutations = {
     state.isLoading = true;
     state.data = null;
   },
-  [mutationTypes.getFeedSucces](state, payload) {
+  [mutationTypes.getFeedSuccess](state, payload) {
     state.isLoading = false;
     state.data = payload;
   },
@@ -38,7 +38,7 @@ const actions = {
       feedApi
         .getFeed(apiUrl)
         .then((response) => {
-          commit(mutationTypes.getFeedSucces, response.data);
+          commit(mutationTypes.getFeedSuccess, response.data);
           resolve(response.data);
         })
         .catch((result) => {

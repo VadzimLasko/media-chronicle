@@ -44,36 +44,37 @@
 </template>
 
 <script>
-  import { mapState } from "vuex";
-  import McvValidationErrors from "@/components/ValidationErrors.vue";
-  import { actionTypes } from "@/store/modules/auth.js";
-  export default {
-    name: "LoginView",
-    components: { McvValidationErrors },
-    computed: {
-      ...mapState({
-        isSubmitting: (state) => state.auth.isSubmitting,
-        validationErrors: (state) => state.auth.validationErrors,
-      }),
+import { mapState } from "vuex";
+import McvValidationErrors from "@/components/ValidationErrors.vue";
+import { actionTypes } from "@/store/modules/auth.js";
+
+export default {
+  name: "LoginView",
+  components: { McvValidationErrors },
+  computed: {
+    ...mapState({
+      isSubmitting: (state) => state.auth.isSubmitting,
+      validationErrors: (state) => state.auth.validationErrors,
+    }),
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+      errors: [],
+    };
+  },
+  methods: {
+    onSubmit() {
+      this.$store
+        .dispatch(actionTypes.login, {
+          email: this.email,
+          password: this.password,
+        })
+        .then(() => {
+          this.$router.push({ name: "globalFeed" });
+        });
     },
-    data() {
-      return {
-        email: "",
-        password: "",
-        errors: [],
-      };
-    },
-    methods: {
-      onSubmit() {
-        this.$store
-          .dispatch(actionTypes.login, {
-            email: this.email,
-            password: this.password,
-          })
-          .then(() => {
-            this.$router.push({ name: "globalFeed" });
-          });
-      },
-    },
-  };
+  },
+};
 </script>

@@ -20,6 +20,7 @@
   import McvPopularTags from "@/components/PopularTags.vue";
   import McvBanner from "@/components/Banner.vue";
   import McvFeedToggler from "@/components/FeedToggler.vue";
+  
   export default {
     name: "McvYourFeedView",
     components: {

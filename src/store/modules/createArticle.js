@@ -7,7 +7,7 @@ const state = {
 
 export const mutationTypes = {
   createArticleStart: "[createArticle] Create article start",
-  createArticleSucces: "[createArticle] Create article succes",
+  createArticleSuccess: "[createArticle] Create article success",
   createArticleFailure: "[createArticle] Create article failure",
 };
 
@@ -18,9 +18,9 @@ export const actionTypes = {
 const mutations = {
   [mutationTypes.createArticleStart](state) {
     state.isSubmitting = true;
-    // state.validationErrors = null;
+    state.validationErrors = null;
   },
-  [mutationTypes.createArticleSucces](state) {
+  [mutationTypes.createArticleSuccess](state) {
     state.isSubmitting = false;
   },
   [mutationTypes.createArticleFailure](state, payload) {
@@ -36,7 +36,7 @@ const actions = {
       articleApi
         .createArticle(articleInput)
         .then((article) => {
-          commit(mutationTypes.createArticleSucces, article);
+          commit(mutationTypes.createArticleSuccess, article);
           resolve(article);
         })
         .catch((result) => {

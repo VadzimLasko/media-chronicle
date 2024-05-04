@@ -11,19 +11,19 @@ const state = {
 
 export const mutationTypes = {
   registerStart: "[auth] Register start",
-  registerSucces: "[auth] Register succes",
+  registerSuccess: "[auth] Register success",
   registerFailure: "[auth] Register failure",
 
   loginStart: "[auth] Login start",
-  loginSucces: "[auth] Login succes",
+  loginSuccess: "[auth] Login success",
   loginFailure: "[auth] Login failure",
 
   getCurrentUserStart: "[auth] Get currentUser start",
-  getCurrentUserSucces: "[auth] Get currentUser succes",
+  getCurrentUserSuccess: "[auth] Get currentUser success",
   getCurrentUserFailure: "[auth] Get currentUser failure",
 
   updateCurrentUserStart: "[auth] Update currentUser start",
-  updateCurrentUserSucces: "[auth] Update currentUser succes",
+  updateCurrentUserSuccess: "[auth] Update currentUser success",
   updateCurrentUserFailure: "[auth] Update currentUser failure",
 
   logout: "[auth] Logout",
@@ -45,7 +45,7 @@ export const getterTypes = {
 
 const getters = {
   [getterTypes.currentUser]: (state) => {
-    return state.currentUser; //так как это прописывается в модуле стора, то и стейт здесь будет только мудуля, не всего стора. Но название геттера будет глобальным, поэтому в других модклях такого названия нельзя давать.
+    return state.currentUser; 
   },
   [getterTypes.isLoggedIn]: (state) => {
     return Boolean(state.isLoggedIn);
@@ -60,7 +60,7 @@ const mutations = {
     state.isSubmitting = true;
     state.validationErrors = null;
   },
-  [mutationTypes.registerSucces](state, payload) {
+  [mutationTypes.registerSuccess](state, payload) {
     state.isSubmitting = false;
     state.currentUser = payload;
     state.isLoggedIn = true;
@@ -74,7 +74,7 @@ const mutations = {
     state.isSubmitting = true;
     state.validationErrors = null;
   },
-  [mutationTypes.loginSucces](state, payload) {
+  [mutationTypes.loginSuccess](state, payload) {
     state.isSubmitting = false;
     state.currentUser = payload;
     state.isLoggedIn = true;
@@ -87,7 +87,7 @@ const mutations = {
   [mutationTypes.getCurrentUserStart](state) {
     state.isLoading = true;
   },
-  [mutationTypes.getCurrentUserSucces](state, payload) {
+  [mutationTypes.getCurrentUserSuccess](state, payload) {
     state.isLoading = false;
     state.currentUser = payload;
     state.isLoggedIn = true;
@@ -99,7 +99,7 @@ const mutations = {
   },
 
   [mutationTypes.updateCurrentUserStart]() {},
-  [mutationTypes.updateCurrentUserSucces](state, payload) {
+  [mutationTypes.updateCurrentUserSuccess](state, payload) {
     state.currentUser = payload;
   },
   [mutationTypes.updateCurrentUserFailure](stte) {},
@@ -112,13 +112,12 @@ const mutations = {
 
 const actions = {
   [actionTypes.register]({ commit }, credential) {
-    //Здесь исп-ся деструктуризация т.к. в в экшн всегда приходит контекст, а внутри него сидит комит, диспатч и стейт.
     return new Promise((resolve) => {
       commit(mutationTypes.registerStart);
       authApi
         .register(credential)
         .then((response) => {
-          commit(mutationTypes.registerSucces, response.data.user);
+          commit(mutationTypes.registerSuccess, response.data.user);
           setItem("accessToken", response.data.user.token);
           resolve(response.data.user);
         })
@@ -133,7 +132,7 @@ const actions = {
       authApi
         .login(credential)
         .then((response) => {
-          commit(mutationTypes.loginSucces, response.data.user);
+          commit(mutationTypes.loginSuccess, response.data.user);
           setItem("accessToken", response.data.user.token);
           resolve(response.data.user);
         })
@@ -148,7 +147,7 @@ const actions = {
       authApi
         .getCurrentUser()
         .then((response) => {
-          commit(mutationTypes.getCurrentUserSucces, response.data.user);
+          commit(mutationTypes.getCurrentUserSuccess, response.data.user);
           resolve(response.data.user);
         })
         .catch(() => {
@@ -163,7 +162,7 @@ const actions = {
       authApi
         .updateCurrentUser(currentUserInput)
         .then((user) => {
-          commit(mutationTypes.updateCurrentUserSucces, user);
+          commit(mutationTypes.updateCurrentUserSuccess, user);
           resolve(user);
         })
         .catch(() => {

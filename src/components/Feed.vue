@@ -59,15 +59,15 @@
 </template>
 
 <script>
+import queryString from "query-string";
 import { mapState } from "vuex";
 import { actionTypes } from "@/store/modules/feed.js";
-import McvPagination from "@/components/Pagination.vue";
 import { limit } from "@/helpers/vars.js";
 import McvLoading from "@/components/Loading.vue";
 import McvErrorMessage from "@/components/ErrorMessage.vue";
 import McvTags from "@/components/Tags.vue";
 import McvAddToFavorites from "@/components/AddToFavorites.vue";
-import queryString from "query-string";
+import McvPagination from "@/components/Pagination.vue";
 export default {
   name: "McvFeed",
   props: {
@@ -105,23 +105,21 @@ export default {
     },
   },
   watch: {
-    apiUrl: "fetchFeed", // Следим за изменением apiUrl и вызываем fetchFeed
+    apiUrl: "fetchFeed",
     currentPage: "fetchFeed",
   },
-  mounted() {
+  created() {
     this.fetchFeed();
   },
   methods: {
     fetchFeed() {
       const parsedUrl = queryString.parseUrl(this.apiUrl);
-      // разложили текущий url
       const stringifiedParams = queryString.stringify({
-        // добавили новые qury параметры
         limit: this.limit,
         offset: this.offset,
         ...parsedUrl.query,
       });
-      const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`; // собрали нужную строку адреса с qury параметрами
+      const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
       this.$store.dispatch(actionTypes.getFeed, { apiUrl: apiUrlWithParams });
     },
   },

@@ -16,25 +16,26 @@
 </template>
 
 <script>
-  import McvFeed from "@/components/Feed.vue";
-  import McvPopularTags from "@/components/PopularTags.vue";
-  import McvBanner from "@/components/Banner.vue";
-  import McvFeedToggler from "@/components/FeedToggler.vue";
-  export default {
-    name: "McvTagFeedView",
-    components: {
-      McvFeed,
-      McvPopularTags,
-      McvBanner,
-      McvFeedToggler,
+import McvFeed from "@/components/Feed.vue";
+import McvPopularTags from "@/components/PopularTags.vue";
+import McvBanner from "@/components/Banner.vue";
+import McvFeedToggler from "@/components/FeedToggler.vue";
+
+export default {
+  name: "McvTagFeedView",
+  components: {
+    McvFeed,
+    McvPopularTags,
+    McvBanner,
+    McvFeedToggler,
+  },
+  computed: {
+    tagName() {
+      return this.$route.params.slug;
     },
-    computed: {
-      tagName() {
-        return this.$route.params.slug;
-      },
-      apiUrl() {
-        return `/articles?tag=${this.tagName}`;
-      },
+    apiUrl() {
+      return `/articles?tag=${this.tagName}`;
     },
-  };
+  },
+};
 </script>
