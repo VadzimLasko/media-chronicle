@@ -53,13 +53,16 @@
                   placeholder="New password"
                 />
               </fieldset>
-              <button
-                type="submit"
-                class="btn btn-lg btn-primary pull-xs-right"
-                :disabled="isSubmitting"
-              >
-                Update settings
-              </button>
+              <span class="span">
+                <button
+                  type="submit"
+                  class="btn btn-lg btn-primary pull-xs-right colored"
+                  :disabled="isSubmitting"
+                >
+                  Update settings
+                </button>
+                <p v-if="isUpdated" class="settings__p">Successfully</p>
+              </span>
             </fieldset>
           </form>
           <hr />
@@ -103,11 +106,26 @@ export default {
       };
     },
   },
+  data() {
+    return {
+      isUpdated: false,
+    };
+  },
+  watch: {
+    isUpdated: () => {},
+  },
   methods: {
     onSubmit() {
-      this.$store.dispatch(authActionTypes.updateCurrentUser, {
-        currentUserInput: this.form,
-      });
+      this.$store
+        .dispatch(authActionTypes.updateCurrentUser, {
+          currentUserInput: this.form,
+        })
+        .then(() => {
+          this.isUpdated = true;
+          setTimeout(() => {
+            this.isUpdated = false;
+          }, 2000);
+        });
     },
     logout() {
       this.$store.dispatch(authActionTypes.logout).then(() => {
@@ -117,3 +135,27 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.colored {
+  background-color: #b22cff !important;
+  border-color: #b22cff !important;
+}
+.colored:focus {
+  outline: none;
+}
+.colored:active {
+  background-color: #9711d1 !important;
+  border-color: #9711d1 !important;
+}
+.span {
+  position: relative;
+}
+.settings__p {
+  color: #5cb85c;
+  position: absolute;
+  font-size: 1.25rem;
+  top: 0.6rem;
+  left: 14.5rem;
+}
+</style>

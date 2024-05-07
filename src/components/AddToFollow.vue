@@ -1,4 +1,5 @@
 <template>
+  <!-- To do чтобы не мог подписываться и ставить лайки если я не авторизован-->
   <button
     @click="handleFollow"
     :class="{
@@ -11,7 +12,7 @@
     :style="{ 'margin-right': '1rem' }"
   >
     <i class="ion-heart"></i>
-    <span> Follow {{ profileSlug }} </span>
+    <span :style="{ color: 'black' }"> Follow {{ profileSlug }} </span>
   </button>
 </template>
 

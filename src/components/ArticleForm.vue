@@ -40,7 +40,7 @@
               <fieldset class="form-group">
                 <button
                   type="submit"
-                  class="btn btn-lg pull-xs-right btn-primary"
+                  class="btn btn-lg pull-xs-right btn-primary colored"
                   :disabled="isSubmitting"
                 >
                   Publish Article
@@ -78,7 +78,7 @@ export default {
       title: this.initialValues.title,
       description: this.initialValues.description,
       body: this.initialValues.body,
-      tagList: this.initialValues.tagList.join(" "), 
+      tagList: this.initialValues.tagList.join(" "),
     };
   },
   methods: {
@@ -94,3 +94,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.colored,
+.colored:disabled {
+  background-color: #b22cff !important;
+  border-color: #b22cff !important;
+}
+</style>

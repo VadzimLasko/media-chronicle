@@ -7,7 +7,7 @@
           <mcv-article-profile :data="article" />
 
           <!-- This is not Author -->
-          <span v-if="!isAuthor">
+          <span v-if="!isAuthor && isCurrentUser">
             <mcv-add-to-follow
               :is-followed="isFollowed"
               :profile-slug="article.author.username"

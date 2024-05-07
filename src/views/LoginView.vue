@@ -31,7 +31,7 @@
               />
             </fieldset>
             <button
-              class="btn btn-lg btn-primary pull-xs-right"
+              class="btn colored btn-lg btn-primary pull-xs-right"
               :disabled="isSubmitting"
             >
               Sign In
@@ -78,3 +78,16 @@ export default {
   },
 };
 </script>
+<style scoped>
+.colored {
+  background-color: #b22cff !important;
+  border-color: #b22cff !important;
+}
+.colored:focus {
+  outline: none;
+}
+.colored:active {
+  background-color: #9711d1 !important;
+  border-color: #9711d1 !important;
+}
+</style>

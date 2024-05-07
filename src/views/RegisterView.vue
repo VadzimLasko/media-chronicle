@@ -39,7 +39,7 @@
               />
             </fieldset>
             <button
-              class="btn btn-lg btn-primary pull-xs-right"
+              class="btn btn-lg btn-primary pull-xs-right colored"
               :disabled="isSubmitting"
             >
               Sign Up
@@ -52,41 +52,55 @@
 </template>
 
 <script>
-  import { mapState } from "vuex";
-  import McvValidationErrors from "@/components/ValidationErrors.vue";
-  import { actionTypes } from "@/store/modules/auth.js";
-  
-  export default {
-    name: "RegisterView",
-    components: {
-      McvValidationErrors,
+import { mapState } from "vuex";
+import McvValidationErrors from "@/components/ValidationErrors.vue";
+import { actionTypes } from "@/store/modules/auth.js";
+
+export default {
+  name: "RegisterView",
+  components: {
+    McvValidationErrors,
+  },
+  computed: {
+    ...mapState({
+      isSubmitting: (state) => state.auth.isSubmitting,
+      validationErrors: (state) => state.auth.validationErrors,
+    }),
+  },
+  data() {
+    return {
+      username: "",
+      email: "",
+      password: "",
+      errors: [],
+    };
+  },
+  methods: {
+    onSubmit() {
+      this.$store
+        .dispatch(actionTypes.register, {
+          email: this.email,
+          username: this.username,
+          password: this.password,
+        })
+        .then(() => {
+          this.$router.push({ name: "globalFeed" });
+        });
     },
-    computed: {
-      ...mapState({
-        isSubmitting: (state) => state.auth.isSubmitting,
-        validationErrors: (state) => state.auth.validationErrors,
-      }),
-    },
-    data() {
-      return {
-        username: "",
-        email: "",
-        password: "",
-        errors: [],
-      };
-    },
-    methods: {
-      onSubmit() {
-        this.$store
-          .dispatch(actionTypes.register, {
-            email: this.email,
-            username: this.username,
-            password: this.password,
-          })
-          .then(() => {
-            this.$router.push({ name: "globalFeed" });
-          });
-      },
-    },
-  };
+  },
+};
 </script>
+
+<style scoped>
+.colored {
+  background-color: #b22cff !important;
+  border-color: #b22cff !important;
+}
+.colored:focus {
+  outline: none;
+}
+.colored:active {
+  background-color: #9711d1 !important;
+  border-color: #9711d1 !important;
+}
+</style>

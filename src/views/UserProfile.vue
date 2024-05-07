@@ -8,15 +8,20 @@
             <h4>{{ userProfile.username }}</h4>
             <p>{{ userProfile.bio }}</p>
             <div>
-              <!-- TO do -->
-              FOLLOW USER BUTTON
-              <router-link
-                v-if="isCurrentUserProfile"
-                class="btn btn-sm btn-outline-secondary action-btn"
-                :to="{ name: 'settings' }"
-              >
-                Edit Profile Settings
-              </router-link>
+              <span>
+                <mcv-add-to-follow
+                  v-if="currentUser && !isCurrentUserProfile"
+                  :is-followed="userProfile.following"
+                  :profile-slug="userProfile.username"
+                />
+                <router-link
+                  v-if="isCurrentUserProfile"
+                  class="btn btn-sm btn-outline-secondary action-btn"
+                  :to="{ name: 'settings' }"
+                >
+                  Edit Profile Settings
+                </router-link>
+              </span>
             </div>
           </div>
         </div>
@@ -51,9 +56,25 @@
                   Favorites Posts
                 </router-link>
               </li>
+              <li v-if="isCurrentUserProfile" class="nav-item">
+                <router-link
+                  :to="{
+                    name: 'userFollowedAuthors',
+                    params: { slug: userProfile.username },
+                  }"
+                  class="nav-link"
+                  :class="{ active: routeName === 'userFollowedAuthors' }"
+                >
+                  Followed Authors
+                </router-link>
+              </li>
             </ul>
           </div>
-          <mcv-feed :api-url="apiUrl"></mcv-feed>
+          <mcv-feed
+            v-if="routeName != 'userFollowedAuthors'"
+            :api-url="apiUrl"
+          ></mcv-feed>
+          <mcv-followed-authors v-if="routeName === 'userFollowedAuthors'" />
         </div>
       </div>
     </div>
@@ -66,12 +87,14 @@ import { actionTypes as userProfileActionTypes } from "@/store/modules/userProfi
 import { getterTypes as authGetterTypes } from "@/store/modules/auth.js";
 import McvFeed from "@/components/Feed.vue";
 import McvAddToFollow from "@/components/AddToFollow.vue";
+import McvFollowedAuthors from "@/components/FollowedAuthors.vue";
 
 export default {
   name: "McvUserProfile",
   components: {
     McvFeed,
     McvAddToFollow,
+    McvFollowedAuthors,
   },
   computed: {
     ...mapState({

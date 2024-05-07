@@ -68,6 +68,11 @@ const routes = [
     name: "userProfileFavorites",
     component: UserProfile,
   },
+  {
+    path: "/profiles/:slug/followedAuthors",
+    name: "userFollowedAuthors",
+    component: UserProfile,
+  },
 ];
 
 const router = createRouter({

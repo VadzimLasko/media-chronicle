@@ -10,28 +10,10 @@
         :key="index"
       >
         <div class="article-meta">
-          <router-link
-            :to="{
-              name: 'userProfile',
-              params: { slug: article.author.username },
-            }"
-          >
-            <img :src="article.author.image" />
-          </router-link>
-          <div class="info">
-            <router-link
-              :to="{
-                name: 'userProfile',
-                params: { slug: article.author.username },
-              }"
-              class="author"
-            >
-              {{ article.author.username }}
-            </router-link>
-            <span class="date">{{ article.createdAt }}</span>
-          </div>
+          <mcv-article-profile :data="article" />
           <div class="pull-xs-right">
             <mcv-add-to-favorites
+              v-if="currentUser"
               :is-favorited="article.favorited"
               :article-slug="article.slug"
               :favorites-count="article.favoritesCount"
@@ -60,11 +42,13 @@
 
 <script>
 import queryString from "query-string";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { getterTypes } from "@/store/modules/auth.js";
 import { actionTypes } from "@/store/modules/feed.js";
 import { limit } from "@/helpers/vars.js";
 import McvLoading from "@/components/Loading.vue";
 import McvErrorMessage from "@/components/ErrorMessage.vue";
+import McvArticleProfile from "@/components/ArticleProfile.vue";
 import McvTags from "@/components/Tags.vue";
 import McvAddToFavorites from "@/components/AddToFavorites.vue";
 import McvPagination from "@/components/Pagination.vue";
@@ -82,6 +66,7 @@ export default {
     McvErrorMessage,
     McvTags,
     McvAddToFavorites,
+    McvArticleProfile,
   },
   data() {
     return {
@@ -93,6 +78,9 @@ export default {
       isLoading: (state) => state.feed.isLoading,
       feed: (state) => state.feed.data,
       error: (state) => state.feed.error,
+    }),
+    ...mapGetters({
+      currentUser: getterTypes.currentUser,
     }),
     currentPage() {
       return +this.$route.query.page || 1;

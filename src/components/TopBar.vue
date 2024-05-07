@@ -1,8 +1,8 @@
 <template>
   <nav class="navbar navbar-light">
     <div class="container">
-      <router-link class="navbar-brand" :to="{ name: 'globalFeed' }">
-        Top topics
+      <router-link class="navbar-brand colored" :to="{ name: 'globalFeed' }">
+        Media chronicle
       </router-link>
       <ul class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
@@ -92,3 +92,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.colored {
+  color: #b22cff !important;
+}
+</style>

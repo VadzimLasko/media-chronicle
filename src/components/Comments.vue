@@ -29,7 +29,7 @@
               <fieldset class="form-group">
                 <button
                   type="submit"
-                  class="btn btn-lg pull-xs-right btn-primary"
+                  class="btn btn-lg pull-xs-right btn-primary colored"
                 >
                   Publish Comment
                 </button>
@@ -179,5 +179,16 @@ export default {
   margin: 2rem auto;
   width: 500px;
   text-align: center;
+}
+.colored {
+  background-color: #b22cff !important;
+  border-color: #b22cff !important;
+}
+.colored:focus {
+  outline: none;
+}
+.colored:active {
+  background-color: #9711d1 !important;
+  border-color: #9711d1 !important;
 }
 </style>
