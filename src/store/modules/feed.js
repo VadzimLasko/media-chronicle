@@ -32,19 +32,15 @@ const mutations = {
 };
 
 const actions = {
-  [actionTypes.getFeed]({ commit }, { apiUrl }) {
-    return new Promise((resolve) => {
+  async [actionTypes.getFeed]({ commit }, { apiUrl }) {
+    try {
       commit(mutationTypes.getFeedStart);
-      feedApi
-        .getFeed(apiUrl)
-        .then((response) => {
-          commit(mutationTypes.getFeedSuccess, response.data);
-          resolve(response.data);
-        })
-        .catch((result) => {
-          commit(mutationTypes.getFeedFailure, result.response.data.errors);
-        });
-    });
+      const response = await feedApi.getFeed(apiUrl);
+      commit(mutationTypes.getFeedSuccess, response.data);
+      return response.data;
+    } catch (error) {
+      commit(mutationTypes.getFeedFailure, error.response.data.errors);
+    }
   },
 };
 

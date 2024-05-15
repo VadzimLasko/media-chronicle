@@ -111,72 +111,54 @@ const mutations = {
 };
 
 const actions = {
-  [actionTypes.register]({ commit }, credential) {
-    return new Promise((resolve) => {
+  async [actionTypes.register]({ commit }, credential) {
+    try {
       commit(mutationTypes.registerStart);
-      authApi
-        .register(credential)
-        .then((response) => {
-          commit(mutationTypes.registerSuccess, response.data.user);
-          setItem("accessToken", response.data.user.token);
-          resolve(response.data.user);
-        })
-        .catch((result) => {
-          commit(mutationTypes.registerFailure, result.response.data.errors);
-        });
-    });
+      const response = await authApi.register(credential);
+      commit(mutationTypes.registerSuccess, response.data.user);
+      setItem("accessToken", response.data.user.token);
+      return response.data.user;
+    } catch (result) {
+      commit(mutationTypes.registerFailure, result.response.data.errors);
+    }
   },
-  [actionTypes.login]({ commit }, credential) {
-    return new Promise((resolve) => {
+  async [actionTypes.login]({ commit }, credential) {
+    try {
       commit(mutationTypes.loginStart);
-      authApi
-        .login(credential)
-        .then((response) => {
-          commit(mutationTypes.loginSuccess, response.data.user);
-          setItem("accessToken", response.data.user.token);
-          resolve(response.data.user);
-        })
-        .catch((result) => {
-          commit(mutationTypes.loginFailure, result.response.data.errors);
-        });
-    });
+      const response = await authApi.login(credential);
+      commit(mutationTypes.loginSuccess, response.data.user);
+      setItem("accessToken", response.data.user.token);
+      return response.data.user;
+    } catch (result) {
+      commit(mutationTypes.loginFailure, result.response.data.errors);
+    }
   },
-  [actionTypes.getCurrentUser]({ commit }) {
-    return new Promise((resolve) => {
+  async [actionTypes.getCurrentUser]({ commit }) {
+    try {
       commit(mutationTypes.getCurrentUserStart);
-      authApi
-        .getCurrentUser()
-        .then((response) => {
-          commit(mutationTypes.getCurrentUserSuccess, response.data.user);
-          resolve(response.data.user);
-        })
-        .catch(() => {
-          commit(mutationTypes.getCurrentUserFailure);
-        });
-    });
+      const response = await authApi.getCurrentUser();
+      commit(mutationTypes.getCurrentUserSuccess, response.data.user);
+      return response.data.user;
+    } catch {
+      commit(mutationTypes.getCurrentUserFailure);
+    }
   },
 
-  [actionTypes.updateCurrentUser]({ commit }, { currentUserInput }) {
-    return new Promise((resolve) => {
+  async [actionTypes.updateCurrentUser]({ commit }, { currentUserInput }) {
+    try {
       commit(mutationTypes.updateCurrentUserStart);
-      authApi
-        .updateCurrentUser(currentUserInput)
-        .then((user) => {
-          commit(mutationTypes.updateCurrentUserSuccess, user);
-          resolve(user);
-        })
-        .catch(() => {
-          commit(mutationTypes.updateCurrentUserFailure);
-        });
-    });
+      const user = await authApi.updateCurrentUser(currentUserInput);
+      commit(mutationTypes.updateCurrentUserSuccess, user);
+      return user;
+    } catch {
+      commit(mutationTypes.updateCurrentUserFailure);
+    }
   },
 
   [actionTypes.logout]({ commit }) {
-    return new Promise((resolve) => {
-      setItem("accessToken", "");
-      commit(mutationTypes.logout);
-      resolve();
-    });
+    setItem("accessToken", "");
+    commit(mutationTypes.logout);
+    return Promise.resolve();
   },
 };
 

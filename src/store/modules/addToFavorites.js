@@ -17,23 +17,18 @@ export const mutations = {
 };
 
 const actions = {
-  [actionTypes.addToFavorites]({ commit }, { slug, isFavorited }) {
-    return new Promise((resolve) => {
-      commit(mutationTypes.addToFavoritesStart);
+  async [actionTypes.addToFavorites]({ commit }, { slug, isFavorited }) {
+    commit(mutationTypes.addToFavoritesStart);
+    try {
+      const article = isFavorited
+        ? await addToFavoritesApi.removeFromFavorites(slug)
+        : await addToFavoritesApi.addToFavorites(slug);
 
-      const promise = isFavorited
-        ? addToFavoritesApi.removeFromFavorites(slug)
-        : addToFavoritesApi.addToFavorites(slug);
-
-      promise
-        .then((article) => {
-          commit(mutationTypes.addToFavoritesSuccess, article);
-          resolve(article);
-        })
-        .catch(() => {
-          commit(mutationTypes.addToFavoritesFailure);
-        });
-    });
+      commit(mutationTypes.addToFavoritesSuccess, article);
+      return article;
+    } catch (error) {
+      commit(mutationTypes.addToFavoritesFailure);
+    }
   },
 };
 

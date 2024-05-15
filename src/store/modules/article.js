@@ -43,36 +43,24 @@ const mutations = {
 };
 
 const actions = {
-  [actionTypes.getArticle]({ commit }, { slug }) {
-    return new Promise((resolve) => {
+  async [actionTypes.getArticle]({ commit }, { slug }) {
+    try {
       commit(mutationTypes.getArticleStart);
-      articleApi
-        .getArticle(slug)
-        .then((article) => {
-          commit(mutationTypes.getArticleSuccess, article);
-          resolve(article);
-        })
-        .catch((result) => {
-          commit(mutationTypes.getArticleFailure, result.response.data.errors);
-        });
-    });
+      const article = await articleApi.getArticle(slug);
+      commit(mutationTypes.getArticleSuccess, article);
+      return article;
+    } catch (result) {
+      commit(mutationTypes.getArticleFailure, result.response.data.errors);
+    }
   },
-  [actionTypes.deleteArticle]({ commit }, { slug }) {
-    return new Promise((resolve) => {
+  async [actionTypes.deleteArticle]({ commit }, { slug }) {
+    try {
       commit(mutationTypes.deleteArticleStart);
-      articleApi
-        .deleteArticle(slug)
-        .then(() => {
-          commit(mutationTypes.deleteArticleSuccess);
-          resolve();
-        })
-        .catch((result) => {
-          commit(
-            mutationTypes.deleteArticleFailure,
-            result.response.data.errors,
-          );
-        });
-    });
+      await articleApi.deleteArticle(slug);
+      commit(mutationTypes.deleteArticleSuccess);
+    } catch (result) {
+      commit(mutationTypes.deleteArticleFailure, result.response.data.errors);
+    }
   },
 };
 

@@ -48,37 +48,29 @@ const mutations = {
 };
 
 const actions = {
-  [actionTypes.updateArticle]({ commit }, { slug, articleInput }) {
-    return new Promise((resolve) => {
+  async [actionTypes.updateArticle]({ commit }, { slug, articleInput }) {
+    try {
       commit(mutationTypes.updateArticleStart);
-      articleApi
-        .editArticle(slug, articleInput)
-        .then((article) => {
-          commit(mutationTypes.updateArticleSuccess, article);
-          resolve(article);
-        })
-        .catch((result) => {
-          commit(
-            mutationTypes.updateArticleFailure,
-            result.response.data.errors,
+      const article = await articleApi.editArticle(slug, articleInput);
+      commit(mutationTypes.updateArticleSuccess, article);
+      return article;
+        
+    } catch(error) {
+      commit(mutationTypes.updateArticleFailure,
+            result.response.data,
           );
-        });
-    });
+    };
   },
-  [actionTypes.getArticle]({ commit }, { slug }) {
-    return new Promise((resolve) => {
+  async [actionTypes.getArticle]({ commit }, { slug }) {
+    try {
       commit(mutationTypes.getArticleStart);
-      articleApi
-        .getArticle(slug)
-        .then((article) => {
-          commit(mutationTypes.getArticleSuccess, article);
-          resolve(article);
-        })
-        .catch((result) => {
-          commit(mutationTypes.getArticleFailure, result.response.data.errors);
-        });
-    });
-  },
+      const article = await articleApi.getArticle(slug)
+      commit(mutationTypes.getArticleSuccess, article);
+      return article;
+      } catch(error) {
+          commit(mutationTypes.getArticleFailure, result.response.dat);
+      };
+    }
 };
 
 export default {

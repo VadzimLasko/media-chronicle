@@ -29,6 +29,7 @@ export default {
     McvBanner,
     McvFeedToggler,
   },
+
   data() {
     return {
       apiUrl: "/articles",

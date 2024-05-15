@@ -32,19 +32,15 @@ const mutations = {
 };
 
 const actions = {
-  [actionTypes.getUserProfile]({ commit }, { slug }) {
-    return new Promise((resolve) => {
+  async [actionTypes.getUserProfile]({ commit }, { slug }) {
+    try {
       commit(mutationTypes.getUserProfileStart);
-      userProfileApi
-        .getUserProfile(slug)
-        .then((userProfile) => {
-          commit(mutationTypes.getUserProfileSuccess, userProfile);
-          resolve(userProfile);
-        })
-        .catch(() => {
-          commit(mutationTypes.getUserProfileFailure);
-        });
-    });
+      let userProfile = await userProfileApi.getUserProfile(slug);
+      commit(mutationTypes.getUserProfileSuccess, userProfile);
+      return userProfile;
+    } catch (error) {
+      commit(mutationTypes.getUserProfileFailure);
+    }
   },
 };
 

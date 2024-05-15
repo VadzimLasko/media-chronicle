@@ -32,22 +32,15 @@ const mutations = {
 };
 
 const actions = {
-  [actionTypes.getPopularTags]({ commit }) {
-    return new Promise((resolve) => {
+  async [actionTypes.getPopularTags]({ commit }) {
+    try {
       commit(mutationTypes.getPopularTagsStart);
-      popularTagsApi
-        .getPopularTags()
-        .then((tags) => {
-          commit(mutationTypes.getPopularTagsSuccess, tags);
-          resolve(tags);
-        })
-        .catch((result) => {
-          commit(
-            mutationTypes.getPopularTagsFailure,
-            result.response.data.errors,
-          );
-        });
-    });
+      let tags = await popularTagsApi.getPopularTags();
+      commit(mutationTypes.getPopularTagsSuccess, tags);
+      return tags;
+    } catch (error) {
+      commit(mutationTypes.getPopularTagsFailure, error.response.data.errors);
+    }
   },
 };
 

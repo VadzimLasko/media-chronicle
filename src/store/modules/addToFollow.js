@@ -14,30 +14,26 @@ const mutations = {
     [mutationTypes.addToFollowStart]() {},
     [mutationTypes.addToFollowSuccess]() {},
     [mutationTypes.addToFollowFailure]() {},
-  };
+};
   
 const actions = {
-    [actionTypes.addToFollow]({ commit }, { slug, isFollowed }) {
-      return new Promise((resolve) => {
-        commit(mutationTypes.addToFollowStart);
-  
-        const promise = isFollowed
-          ? addToFollowApi.removeFromFollow(slug)
-          : addToFollowApi.addToFollow(slug);
-  
-        promise
-          .then((profile) => {
+    async [actionTypes.addToFollow]({ commit }, { slug, isFollowed }) {
+        try {
+            commit(mutationTypes.addToFollowStart);
+
+            const profile = isFollowed
+                ? await addToFollowApi.removeFromFollow(slug)
+                : await addToFollowApi.addToFollow(slug);
+
             commit(mutationTypes.addToFollowSuccess, profile);
-            resolve(profile);
-          })
-          .catch(() => {
+            return profile;
+        } catch {
             commit(mutationTypes.addToFollowFailure);
-          });
-      });
+        }
     },
-  };
+};
   
-  export default {
+export default {
     mutations,
     actions,
-  };
+};

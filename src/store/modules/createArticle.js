@@ -30,24 +30,21 @@ const mutations = {
 };
 
 const actions = {
-  [actionTypes.createArticle]({ commit }, { articleInput }) {
-    return new Promise((resolve) => {
+  async [actionTypes.createArticle]({ commit }, { articleInput }) {
+    try  {
       commit(mutationTypes.createArticleStart);
-      articleApi
-        .createArticle(articleInput)
-        .then((article) => {
-          commit(mutationTypes.createArticleSuccess, article);
-          resolve(article);
-        })
-        .catch((result) => {
+      const article = await articleApi.createArticle(articleInput);
+      commit(mutationTypes.createArticleSuccess, article);
+      return article;
+    } catch(error) {
           commit(
             mutationTypes.createArticleFailure,
-            result.response.data.errors,
+            error.response.data
           );
-        });
-    });
-  },
-};
+    };
+  }
+}
+
 
 export default {
   state,

@@ -61,50 +61,35 @@ const mutations = {
 };
 
 const actions = {
-  [actionTypes.getComments]({ commit }, { slug }) {
-    return new Promise((resolve) => {
+  async [actionTypes.getComments]({ commit }, { slug }) {
+    try {
       commit(mutationTypes.getCommentsStart);
-      commentsApi
-        .getComments(slug)
-        .then((comments) => {
-          commit(mutationTypes.getCommentsSuccess, comments);
-          resolve(comments);
-        })
-        .catch((result) => {
-          commit(mutationTypes.getCommentsFailure, result.response.data.errors);
-        });
-    });
+      const comments = await commentsApi.getComments(slug);
+      commit(mutationTypes.getCommentsSuccess, comments);
+      return comments;
+    } catch (error) {
+      commit(mutationTypes.getCommentsFailure, error.response.data.errors);
+    }
   },
-  [actionTypes.deleteComment]({ commit }, { slug, idComment}) {
-    return new Promise((resolve) => {
+  async [actionTypes.deleteComment]({ commit }, { slug, idComment }) {
+    try {
       commit(mutationTypes.deleteCommentStart);
-      commentsApi
-        .deleteComment(slug, idComment)
-        .then(() => {
-          commit(mutationTypes.deleteCommentSuccess, );
-          resolve();
-        })
-        .catch((result) => {
-          commit(mutationTypes.deleteCommentFailure, result.response.data.errors);
-        });
-    });
+      await commentsApi.deleteComment(slug, idComment);
+      commit(mutationTypes.deleteCommentSuccess);
+    } catch (error) {
+      commit(mutationTypes.deleteCommentFailure, error.response.data.errors);
+    }
   },
-  [actionTypes.createComment]({ commit }, { slug, commentInput }) {
-    return new Promise((resolve) => {
+  async [actionTypes.createComment]({commit}, {slug, commentInput}) {
+    try {
       commit(mutationTypes.createCommentStart);
-      commentsApi
-        .addComments(slug, commentInput)
-        .then((comment) => {
-          commit(mutationTypes.createCommentSuccess, comment);
-          resolve(comment);
-        })
-        .catch(() => {
-          commit(
-            mutationTypes.createCommentFailure );
-        });
-    });
+      const comment = await commentsApi.addComments(slug, commentInput);
+      commit(mutationTypes.createCommentSuccess, comment);
+      return comment;
+    } catch (error) {
+      commit(mutationTypes.createCommentFailure);
+    }
   },
-
 };
 
 export default {
