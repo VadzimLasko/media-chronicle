@@ -39,7 +39,7 @@ const actions = {
       commit(mutationTypes.getUserProfileSuccess, userProfile);
       return userProfile;
     } catch (error) {
-      commit(mutationTypes.getUserProfileFailure);
+      commit(mutationTypes.getUserProfileFailure, error.response.data.errors);
     }
   },
 };

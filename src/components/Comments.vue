@@ -126,17 +126,21 @@ export default {
       submitComment: actionTypes.createComment,
     }),
     handleDeleteComment(idComment) {
-      this.removeComment({ slug: this.slug, idComment }).then(() => {
-        this.fetchComments({ slug: this.slug });
+      this.removeComment({ slug: this.slug, idComment }).then((result) => {
+        if (result) {
+          this.fetchComments({ slug: this.slug });
+        }
       });
     },
     handleAddComment() {
       this.submitComment({
         slug: this.slug,
         commentInput: this.textComment,
-      }).then(() => {
-        this.textComment = "";
-        this.fetchComments({ slug: this.slug });
+      }).then((comment) => {
+        if (comment) {
+          this.textComment = "";
+          this.fetchComments({ slug: this.slug });
+        }
       });
     },
   },

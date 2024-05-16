@@ -26,16 +26,18 @@ const mutations = {
   [mutationTypes.updateArticleStart](state) {
     state.isSubmitting = true;
   },
-  [mutationTypes.updateArticleSuccess](state) {
+  [mutationTypes.updateArticleSuccess](state, payload ) {
     state.isSubmitting = false;
+    state.article = payload;
   },
-  [mutationTypes.updateArticleFailure](state, payload) {
+  [mutationTypes.updateArticleFailure](state) {
     state.isSubmitting = false;
     state.validationErrors = payload;
   },
 
   [mutationTypes.getArticleStart](state) {
     state.isLoading = true;
+    state.article = null;
   },
   [mutationTypes.getArticleSuccess](state, payload) {
     state.isLoading = false;
@@ -54,11 +56,9 @@ const actions = {
       const article = await articleApi.editArticle(slug, articleInput);
       commit(mutationTypes.updateArticleSuccess, article);
       return article;
-        
     } catch(error) {
-      commit(mutationTypes.updateArticleFailure,
-            result.response.data,
-          );
+      commit(mutationTypes.updateArticleFailure, error.response.data.errors);
+      return false;
     };
   },
   async [actionTypes.getArticle]({ commit }, { slug }) {
@@ -68,7 +68,7 @@ const actions = {
       commit(mutationTypes.getArticleSuccess, article);
       return article;
       } catch(error) {
-          commit(mutationTypes.getArticleFailure, result.response.dat);
+          commit(mutationTypes.getArticleFailure, error.response.data.errors);
       };
     }
 };

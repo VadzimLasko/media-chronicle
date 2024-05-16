@@ -102,7 +102,7 @@ const mutations = {
   [mutationTypes.updateCurrentUserSuccess](state, payload) {
     state.currentUser = payload;
   },
-  [mutationTypes.updateCurrentUserFailure](stte) {},
+  [mutationTypes.updateCurrentUserFailure](state) {},
 
   [mutationTypes.logout](state) {
     state.currentUser = null;
@@ -118,8 +118,9 @@ const actions = {
       commit(mutationTypes.registerSuccess, response.data.user);
       setItem("accessToken", response.data.user.token);
       return response.data.user;
-    } catch (result) {
-      commit(mutationTypes.registerFailure, result.response.data.errors);
+    } catch (error) {
+      commit(mutationTypes.registerFailure, error.response.data.errors);
+      return null;
     }
   },
   async [actionTypes.login]({ commit }, credential) {
@@ -129,8 +130,9 @@ const actions = {
       commit(mutationTypes.loginSuccess, response.data.user);
       setItem("accessToken", response.data.user.token);
       return response.data.user;
-    } catch (result) {
-      commit(mutationTypes.loginFailure, result.response.data.errors);
+    } catch (error) {
+      commit(mutationTypes.loginFailure, error.response.data.errors);
+      return null; 
     }
   },
   async [actionTypes.getCurrentUser]({ commit }) {
@@ -139,8 +141,8 @@ const actions = {
       const response = await authApi.getCurrentUser();
       commit(mutationTypes.getCurrentUserSuccess, response.data.user);
       return response.data.user;
-    } catch {
-      commit(mutationTypes.getCurrentUserFailure);
+    } catch (error) {
+      commit(mutationTypes.getCurrentUserFailure, error);
     }
   },
 
@@ -150,8 +152,9 @@ const actions = {
       const user = await authApi.updateCurrentUser(currentUserInput);
       commit(mutationTypes.updateCurrentUserSuccess, user);
       return user;
-    } catch {
-      commit(mutationTypes.updateCurrentUserFailure);
+    } catch (error) {
+      commit(mutationTypes.updateCurrentUserFailure, error);
+      return false;
     }
   },
 

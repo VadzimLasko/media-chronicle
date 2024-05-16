@@ -76,8 +76,10 @@ const actions = {
       commit(mutationTypes.deleteCommentStart);
       await commentsApi.deleteComment(slug, idComment);
       commit(mutationTypes.deleteCommentSuccess);
+      return true;
     } catch (error) {
-      commit(mutationTypes.deleteCommentFailure, error.response.data.errors);
+      commit(mutationTypes.deleteCommentFailure, error);
+      return false;
     }
   },
   async [actionTypes.createComment]({commit}, {slug, commentInput}) {
@@ -87,7 +89,8 @@ const actions = {
       commit(mutationTypes.createCommentSuccess, comment);
       return comment;
     } catch (error) {
-      commit(mutationTypes.createCommentFailure);
+      commit(mutationTypes.createCommentFailure, error.response.data.errors);
+      return false;
     }
   },
 };

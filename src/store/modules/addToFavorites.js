@@ -27,7 +27,7 @@ const actions = {
       commit(mutationTypes.addToFavoritesSuccess, article);
       return article;
     } catch (error) {
-      commit(mutationTypes.addToFavoritesFailure);
+      commit(mutationTypes.addToFavoritesFailure, error);
     }
   },
 };

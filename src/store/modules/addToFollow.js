@@ -27,8 +27,8 @@ const actions = {
 
             commit(mutationTypes.addToFollowSuccess, profile);
             return profile;
-        } catch {
-            commit(mutationTypes.addToFollowFailure);
+        } catch (error) {
+            commit(mutationTypes.addToFollowFailure, error);
         }
     },
 };

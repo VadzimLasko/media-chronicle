@@ -39,8 +39,9 @@ const actions = {
     } catch(error) {
           commit(
             mutationTypes.createArticleFailure,
-            error.response.data
+            error.response.data.errors
           );
+          return false;
     };
   }
 }

@@ -71,13 +71,16 @@ export default {
           email: this.email,
           password: this.password,
         })
-        .then(() => {
-          this.$router.push({ name: "globalFeed" });
+        .then((user) => {
+          if (user) {
+            this.$router.push({ name: "globalFeed" });
+          }
         });
     },
   },
 };
 </script>
+
 <style scoped>
 .colored {
   background-color: #b22cff !important;

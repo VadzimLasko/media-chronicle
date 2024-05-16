@@ -49,8 +49,8 @@ const actions = {
       const article = await articleApi.getArticle(slug);
       commit(mutationTypes.getArticleSuccess, article);
       return article;
-    } catch (result) {
-      commit(mutationTypes.getArticleFailure, result.response.data.errors);
+    } catch (error) {
+      commit(mutationTypes.getArticleFailure, error.response.data.errors);
     }
   },
   async [actionTypes.deleteArticle]({ commit }, { slug }) {
@@ -58,8 +58,10 @@ const actions = {
       commit(mutationTypes.deleteArticleStart);
       await articleApi.deleteArticle(slug);
       commit(mutationTypes.deleteArticleSuccess);
-    } catch (result) {
-      commit(mutationTypes.deleteArticleFailure, result.response.data.errors);
+      return true;
+    } catch (error) {
+      commit(mutationTypes.deleteArticleFailure, error);
+      return false;
     }
   },
 };

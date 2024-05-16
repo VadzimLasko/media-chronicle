@@ -120,11 +120,13 @@ export default {
         .dispatch(authActionTypes.updateCurrentUser, {
           currentUserInput: this.form,
         })
-        .then(() => {
-          this.isUpdated = true;
-          setTimeout(() => {
-            this.isUpdated = false;
-          }, 2000);
+        .then((result) => {
+          if (result) {
+            this.isUpdated = true;
+            setTimeout(() => {
+              this.isUpdated = false;
+            }, 2000);
+          }
         });
     },
     logout() {
