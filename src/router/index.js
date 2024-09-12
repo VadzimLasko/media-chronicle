@@ -1,15 +1,29 @@
+import { defineAsyncComponent } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
-import GlobalFeedView from "@/views/GlobalFeedView.vue";
-import RegisterView from "@/views/RegisterView.vue";
-import LoginView from "@/views/LoginView.vue";
-import YourFeedView from "@/views/YourFeedView.vue";
-import TagFeedView from "@/views/TagFeedView.vue";
-import Article from "@/views/Article.vue";
-import CreateArticle from "@/views/CreateArticle.vue";
-import EditArticle from "@/views/EditArticle.vue";
-import Settings from "@/views/Settings.vue";
-import UserProfile from "@/views/UserProfile.vue";
 
+import GlobalFeedView from "@/views/GlobalFeedView.vue";
+
+const RegisterView = defineAsyncComponent(() =>
+  import("@/views/RegisterView.vue")
+);
+const LoginView = defineAsyncComponent(() => import("@/views/LoginView.vue"));
+const YourFeedView = defineAsyncComponent(() =>
+  import("@/views/YourFeedView.vue")
+);
+const TagFeedView = defineAsyncComponent(() =>
+  import("@/views/TagFeedView.vue")
+);
+const Article = defineAsyncComponent(() => import("@/views/Article.vue"));
+const CreateArticle = defineAsyncComponent(() =>
+  import("@/views/CreateArticle.vue")
+);
+const EditArticle = defineAsyncComponent(() =>
+  import("@/views/EditArticle.vue")
+);
+const Settings = defineAsyncComponent(() => import("@/views/Settings.vue"));
+const UserProfile = defineAsyncComponent(() =>
+  import("@/views/UserProfile.vue")
+);
 const routes = [
   {
     path: "/register",

@@ -1,5 +1,4 @@
 <template>
-  <!-- To do чтобы не мог подписываться и ставить лайки если я не авторизован-->
   <button
     @click="handleFollow"
     :class="{
